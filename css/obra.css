@@ -1,0 +1,139 @@
+/* ============================================================
+   OBRA — filme de construção (substitui a seção de números da home)
+   Usa as variáveis do :root de style.css
+   ============================================================ */
+.obra{background:var(--grafite);color:var(--creme);padding-block:clamp(72px,9vw,140px);padding-inline:var(--gut);position:relative;overflow:hidden}
+.obra-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(36px,5vw,88px);align-items:center}
+
+/* ---------- texto + capítulos ---------- */
+.obra-title{font-family:var(--f-title);font-size:clamp(34px,4.6vw,72px);font-weight:400;letter-spacing:-.012em;line-height:1.04;color:var(--creme)}
+.obra-title em{font-style:normal;color:var(--areia);font-variant-numeric:tabular-nums}
+.obra-lead{font-family:var(--f-body);margin-top:clamp(20px,2vw,30px);max-width:40ch;color:var(--taupe);font-size:clamp(14px,1.05vw,16px);line-height:1.65}
+
+.obra-ch{list-style:none;margin-top:clamp(32px,4vw,56px);border-top:1px solid rgba(242,239,232,.08)}
+.obra-ch li{border-bottom:1px solid rgba(242,239,232,.08)}
+.obra-ch button{font-family:var(--f-sub);width:100%;display:grid;grid-template-columns:34px 1fr auto;align-items:baseline;column-gap:14px;row-gap:0;padding:12px 0 11px;text-align:left;position:relative;color:rgba(242,239,232,.38);transition:color .4s var(--ease)}
+.obra-ch button:hover{color:rgba(242,239,232,.75)}
+.obra-ch .n{font-size:11px;font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.obra-ch .t{font-size:15px;font-weight:500;letter-spacing:-.005em}
+.obra-ch .d{grid-column:2/4;font-size:13px;color:var(--taupe);max-height:0;overflow:hidden;opacity:0;transition:max-height .5s var(--ease),opacity .4s var(--ease),margin .5s var(--ease)}
+.obra-ch .tc{font-size:11px;font-variant-numeric:tabular-nums;opacity:.6}
+.obra-ch .bar{position:absolute;left:0;bottom:-1px;height:1px;width:100%;transform-origin:left;transform:scaleX(0);background:var(--areia)}
+.obra-ch li.on button{color:var(--creme)}
+.obra-ch li.on .n{color:var(--areia)}
+.obra-ch li.on .d{max-height:3em;opacity:1;margin-top:4px}
+.obra-ch li.done button{color:rgba(242,239,232,.62)}
+.obra-ch li.done .bar{opacity:.4}
+
+/* ---------- palco ---------- */
+.obra-film{position:relative}
+.obra-stage{position:relative;aspect-ratio:4/5;max-height:84vh;width:100%;margin-left:auto;
+  background:
+    radial-gradient(ellipse 70% 55% at 55% 58%,rgba(208,191,171,.07),transparent 70%),
+    radial-gradient(rgba(242,239,232,.07) 1px,transparent 1.2px) 0 0/22px 22px,
+    var(--grafite);
+  border:1px solid rgba(242,239,232,.08);overflow:hidden}
+.obra-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.obra-stage::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(50,49,47,.55),transparent 18%,transparent 82%,rgba(50,49,47,.6))}
+
+.obra-hud{position:absolute;inset:0;z-index:2;pointer-events:none;padding:clamp(16px,2vw,26px);display:flex;justify-content:space-between;align-items:flex-start}
+.hud-l b{display:block;font-family:var(--f-title);font-size:clamp(18px,1.6vw,24px);font-weight:400;letter-spacing:-.02em;color:var(--creme)}
+.hud-l span{display:block;font-family:var(--f-sub);margin-top:4px;font-size:12px;color:var(--taupe);font-variant-numeric:tabular-nums}
+.hud-l span.hud-red{color:var(--linho)}
+.hud-r{text-align:right;font-family:var(--f-sub);font-size:12px;color:var(--taupe);font-variant-numeric:tabular-nums}
+.hud-r i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--areia);margin-right:8px;vertical-align:1px;opacity:0;transition:opacity .3s}
+.obra.playing .hud-r i{opacity:1;animation:obraRec 1.2s steps(2) infinite}
+@keyframes obraRec{50%{opacity:.25}}
+
+/* ---------- controles (estilo player) ---------- */
+.obra-ctrl{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;margin-top:14px}
+.obra-play{width:40px;height:40px;border-radius:50%;border:1px solid rgba(242,239,232,.22);display:grid;place-items:center;color:var(--creme);transition:background .3s var(--ease),border-color .3s}
+.obra-play:hover{background:var(--areia);border-color:var(--areia)}
+.obra-play svg{width:14px;height:14px}
+.obra-play .i-pause,.obra.playing .obra-play .i-play,.obra.ended .obra-play .i-play{display:none}
+.obra.playing .obra-play .i-pause{display:block}
+.obra-play .i-replay{display:none}
+.obra.ended .obra-play .i-replay{display:block}
+.obra-track{position:relative;height:40px;display:flex;align-items:center}
+.obra-track .rail{position:absolute;left:0;right:0;height:1px;background:rgba(242,239,232,.16)}
+.obra-track .fill{position:absolute;left:0;height:1px;background:var(--areia);width:0}
+.obra-track .tk{position:absolute;top:50%;width:1px;height:7px;margin-top:-3px;background:rgba(242,239,232,.35)}
+.obra-track input{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer;margin:0}
+.obra-track .knob{position:absolute;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:var(--creme);box-shadow:0 0 0 4px rgba(208,191,171,.25);left:0;pointer-events:none}
+.obra-track input:focus-visible ~ .knob{outline:2px solid var(--areia);outline-offset:3px}
+.obra-time{font-family:var(--f-sub);font-size:12px;color:var(--taupe);font-variant-numeric:tabular-nums;min-width:92px;text-align:right}
+
+/* ---------- números (sincronizados com o filme) ---------- */
+
+@media(max-width:1000px){
+  .obra-grid{grid-template-columns:1fr}
+  .obra-film{order:-1}
+  .obra-stage{aspect-ratio:4/5;max-height:78vh}
+}
+@media(max-width:600px){
+  .obra-ch .tc{display:none}
+  .obra-time{font-family:var(--f-sub);min-width:0;font-size:11px}
+  .obra-stage{aspect-ratio:3/4}
+}
+
+/* ---------- planta da Penthouse (js/planta.js) ---------- */
+.obra-plan{position:absolute;inset:0;z-index:1;opacity:0;visibility:hidden;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.obra-plan.zoomed{touch-action:none;cursor:grab}
+.obra-plan.zoomed:active{cursor:grabbing}
+.pl-zoom{position:absolute;inset:0;transform-origin:0 0}
+.pl-realbox{opacity:0;transition:opacity .7s var(--ease)}
+.obra-plan.real .pl-realbox{opacity:1}
+.obra-plan.real .pl-lines{opacity:0}
+.pl-lines{transition:opacity .7s var(--ease)}
+.pl-box{position:absolute}
+.pl-lines{transform:scale(var(--z,1));transform-origin:50% 45%}
+.pl-real,.pl-svg{position:absolute;inset:0;width:100%;height:100%;display:block;transition:opacity .7s var(--ease)}
+.pl-real{object-fit:contain;-webkit-user-drag:none;pointer-events:none}
+
+.pl-svg :is(rect,line,circle,ellipse,path){
+  fill:none;stroke-width:1;vector-effect:non-scaling-stroke;
+  stroke-dasharray:1 1;
+  stroke-dashoffset:clamp(0, calc(1 - (var(--p,0) - var(--i,0) * .62) / .38), 1);
+}
+.pl-walls :is(rect,line,circle,ellipse,path){stroke:rgba(242,239,232,.92);stroke-width:1.15;fill:rgba(242,239,232,calc(.13 * var(--p,0)))}
+.pl-glass :is(rect,line,circle,ellipse,path){stroke:rgba(226,220,208,.8);stroke-width:.8}
+.pl-fix   :is(rect,line,circle,ellipse,path){stroke:rgba(242,239,232,.7);stroke-width:.8}
+.pl-furn  :is(rect,line,circle,ellipse,path){stroke:rgba(242,239,232,.5);stroke-width:.75}
+.pl-soft  :is(rect,line,circle,ellipse,path){stroke:rgba(208,191,171,.7);stroke-width:.75}
+.pl-text  :is(rect,line,circle,ellipse,path){stroke:rgba(242,239,232,.55)}
+
+.pl-text .lb{opacity:clamp(0, calc((var(--p,0) - var(--i,0) * .62) / .38), 1)}
+.pl-svg text{font-family:var(--f-sub);text-anchor:middle;font-size:12.4px;letter-spacing:.03em;fill:var(--creme);paint-order:stroke;stroke:rgba(50,49,47,.92);stroke-width:3.4px;stroke-linejoin:round}
+.pl-svg .nm{font-weight:700;}
+.pl-svg .ar{font-weight:500;font-size:10.6px;fill:var(--linho)}
+.pl-svg .rua text{font-size:16px;font-weight:600;letter-spacing:.08em;fill:var(--linho)}
+.pl-svg .norte text{font-size:13px;font-weight:600;fill:var(--linho)}
+
+/* botão "Imagem real": aparece quando a planta termina de desenhar */
+.pl-btn{font-family:var(--f-sub);position:absolute;right:clamp(12px,1.6vw,20px);bottom:clamp(12px,1.6vw,20px);z-index:3;
+  display:inline-flex;align-items:center;gap:9px;padding:10px 15px 10px 13px;
+  font-size:13px;font-weight:450;letter-spacing:.01em;color:var(--creme);
+  background:rgba(50,49,47,.78);border:1px solid rgba(208,191,171,.55);border-radius:999px;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  opacity:0;transform:translateY(8px);pointer-events:none;
+  transition:opacity .5s var(--ease),transform .5s var(--ease),background .3s var(--ease),color .3s,border-color .3s}
+.pl-btn svg{width:15px;height:15px;flex:none}
+.obra.plan-ready .pl-btn{font-family:var(--f-sub);opacity:1;transform:none;pointer-events:auto}
+.pl-btn:hover,.pl-btn[aria-pressed="true"]{background:var(--areia);border-color:var(--areia);color:var(--grafite)}
+
+@media(prefers-reduced-motion:reduce){.pl-real,.pl-svg,.pl-btn{font-family:var(--f-sub);transition:none}}
+
+/* zoom da planta */
+.pl-tools{position:absolute;left:clamp(12px,1.6vw,20px);bottom:clamp(12px,1.6vw,20px);z-index:3;display:flex;align-items:center;
+  background:rgba(50,49,47,.78);border:1px solid rgba(242,239,232,.18);border-radius:999px;padding:3px;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.obra.plan-ready .pl-tools{opacity:1;transform:none;pointer-events:auto}
+.pl-zb{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--creme);transition:background .25s,color .25s}
+.pl-zb svg{width:15px;height:15px}
+.pl-zb:hover:not(:disabled){background:var(--areia);color:var(--grafite)}
+.pl-zb:disabled{opacity:.3;cursor:default}
+.pl-zv{font-family:var(--f-sub);min-width:52px;height:36px;font-size:12px;font-variant-numeric:tabular-nums;color:var(--taupe);border-radius:999px;transition:color .25s}
+.pl-zv:hover{color:var(--creme)}
+@media(max-width:600px){.pl-btn{font-family:var(--f-sub);padding:9px 12px 9px 11px;font-size:12px}.pl-zb{width:32px;height:32px}.pl-zv{font-family:var(--f-sub);min-width:44px;height:32px}}
