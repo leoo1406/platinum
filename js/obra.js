@@ -38,7 +38,6 @@ const PH = [
 ];
 const T_TOWER0=7.4, T_TOWER1=21;
 
-const RED='#D0BFAB', RED_LT='#E2DCD0';   /* areia e linho da paleta */
 const pw = a => `rgba(242,239,232,${a})`;   /* creme */
 const rw = a => `rgba(208,191,171,${a})`;   /* areia */
 const cl = (v,a=0,b=1) => v<a?a:v>b?b:v;
@@ -350,15 +349,15 @@ function hud(t,ry){
 
   const nf=floorsDone(t);
   let A,B,red=false;
-  if(ph===0){ A='Cota ±0,00'; B='Implantação no lote'; }
-  else if(ph===1){ A='Cota ±0,00'; B='Fundação'; }
+  if(ph===0){ A=''; B='Implantação no lote'; }
+  else if(ph===1){ A=''; B='Fundação'; }
   else if(ph===2){ A=`Embasamento`; B=`${Math.round(ss(4.7,7.2,t)*100)}% da base`; }
   else if(ph===3){ A=nf? `Pavimento ${nf} de ${FLOORS}` : 'Embasamento pronto'; B=`${Math.round(nf/FLOORS*100)}% da torre`; }
   else if(ph===4){ A=`Pavimento ${FLOORS} de ${FLOORS}`; B='Coroamento'; }
   else if(ph===5){ A=`${FLOORS} pavimentos`; B=`${Math.round(ss(23.4,25.5,t)*100)}% das unidades acesas`; }
   else if(ph===6){ A=`Pavimento ${FLOOR} de ${FLOORS}`; B='Penthouse'; red=true; }
   else { A='Planta da Penthouse'; B='4 suítes e 342,60m² privativos'; red=true; }
-  hudA.textContent=A; hudB.textContent=B; hudB.classList.toggle('hud-red',red);
+  hudA.textContent=A; hudA.style.display=A?'':'none'; hudB.textContent=B; hudB.classList.toggle('hud-red',red);
 
   const pct=t/DUR*100;
   fill.style.width=pct+'%'; knob.style.left=pct+'%';

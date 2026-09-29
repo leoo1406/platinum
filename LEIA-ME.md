@@ -23,9 +23,9 @@ O cinza médio da paleta veio rotulado #E2DCD0 na imagem, mas a cor do bloco é 
 **Fontes** — arquivos locais em `/fonts` (woff2, só os caracteres latinos):
 Tenor Sans = títulos (`--f-title`), DM Sans = subtítulos e informações (`--f-sub`), Inter = corpo (`--f-body`).
 
-**Logo** — `img/marca.png` é o PNG original (só a margem transparente foi cortada), usado no
+**Logo** — `img/marca.webp` é a logo original (só a margem transparente foi cortada; WebP sem perda), usada no
 carregamento e na cortina. No header e no rodapé a marca é o vetor `#logo` no topo do `index.html`:
-mesma geometria, traço fixo de 1px, porque o PNG ficaria quase invisível a 40px.
+mesma geometria, traço fixo de 1px, porque a imagem ficaria quase invisível a 40px.
 A logo gira 90° no hover e na cortina. `img/favicon.svg` é a versão para a aba do navegador.
 
 A animação da obra (`js/obra.js`) e a camada de luz `img/obra/torre-luz.webp` foram recoloridas
@@ -93,19 +93,6 @@ videoPoster:'img/sense-mare/video-poster.webp'
 
 Com `video:null`, a seção usa `gallery[0]` (ou a capa) e o layout fica idêntico.
 Se o arquivo de vídeo não carregar, o poster continua no lugar.
-
-**Vídeo do escritório (home)** — `js/data.js`, bloco `STUDIO_MEDIA`:
-
-```js
-const STUDIO_MEDIA = {
-  type:'video',                       // 'image' ou 'video'
-  src:'img/escritorio/obra.mp4',
-  poster:'img/escritorio/obra.webp'
-};
-```
-
-Hoje está em `type:'image'` com `img/number-one/02.webp`. Quando você tiver o vídeo
-de obra, crie a pasta `img/escritorio/` e troque para `type:'video'`.
 
 ---
 
@@ -356,7 +343,7 @@ Arquivos: `js/obra.js`, `js/planta.js`, `css/obra.css` e a pasta `img/obra/`.
 |---|---|
 | `img/obra/torre-traco.webp` | a elevação enviada, ampliada 4x, sem mudar nenhuma linha (só o traço fica claro para o fundo escuro) |
 | `img/obra/torre-luz.webp` | camada dourada das janelas acendendo, recortada dos vãos do próprio desenho |
-| `img/obra/planta-real.png` | a planta original, idêntica à enviada — é o que o botão "Imagem real" mostra |
+| `img/obra/planta-real.webp` | a planta original (WebP, visualmente idêntica à enviada) — é o que o botão "Imagem real" mostra |
 
 A animação só revela o desenho original de baixo para cima; nada no prédio é redesenhado.
 Não há "sombra" do projeto ao fundo: o prédio aparece só conforme é construído.
@@ -417,7 +404,7 @@ seção (e não com `background-attachment:fixed`), por isso funciona igual no i
 
 | seção | arquivo | enquadramento |
 |---|---|---|
-| abertura | `img/estudio/entrada.webp` | `style="--pos:center 45%"` no `<img>` |
+| abertura | `img/yangzhou/03.webp` | `style="--pos:center 55%"` no `<img>` |
 | chamada final | `img/legacy/capa.webp` | `style="--pos:center 40%"` no `<img>` |
 
 Para trocar, mude o `src` do `<img class="st-par-img">`. Use fotos horizontais com pelo menos

@@ -1,7 +1,7 @@
 /* ============================================================
    PLANTA DA PENTHOUSE — desenho em linhas
    Coordenadas no mesmo sistema da imagem real (550 x 807 px),
-   então o traço e a foto (img/obra/planta-real.png) se sobrepõem 1:1.
+   então o traço e a foto (img/obra/planta-real.webp) se sobrepõem 1:1.
    Cada grupo (g) entra em uma etapa da animação; ver js/obra.js.
    ============================================================ */
 window.PLANTA = (()=>{

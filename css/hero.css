@@ -2,13 +2,11 @@
    HERO PLATINUM — cenas em sequência (a palavra já vem nos vídeos)
    ============================================================ */
 .hero{isolation:isolate}
-.hero-media::after{display:none}                 /* o escurecimento agora é o .hero-shade */
 
 /* cenas (vídeo ou demo) empilhadas, uma aparece por vez */
 .hs{position:absolute;inset:0;opacity:0;transition:opacity 1.6s var(--ease-io)}
 .hs.on{opacity:1}
 .hs video,.hs img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.hs video,.hs img{transform:none}
 .hs.int::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(50,49,47,.55),rgba(50,49,47,.1) 45%)}
 
 .hero-in{transition:opacity 1.2s var(--ease-io)}

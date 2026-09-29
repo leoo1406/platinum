@@ -5,7 +5,6 @@
 const $  = (s,c=document)=>c.querySelector(s);
 const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const mqMobile = matchMedia('(max-width: 768px)');
 
 let ready=false,_done=false;
 function finish(){
@@ -108,51 +107,6 @@ $$('.menu-l a').forEach((a,i)=>a.addEventListener('mouseenter',()=>{
   $$('#menuImgs img').forEach((im,k)=>im.classList.toggle('on',k===i));
 }));
 function closeMenu(){ document.body.classList.remove('menu-open','lock'); menu.classList.remove('open'); }
-
-/* ---------- hero: video rodando sozinho ---------- */
-(function heroVideo(){
-  const v=$('#heroVideo'); if(!v) return;
-
-  if(reduce){ v.removeAttribute('autoplay'); v.pause(); v.remove(); return; }
-
-  // alguns navegadores so liberam o autoplay depois de um gesto: tenta de novo no primeiro toque
-  function tocar(){
-    const p=v.play();
-    if(p && p.catch) p.catch(()=>{
-      const retry=()=>{ v.play().catch(()=>{}); off(); };
-      const off=()=>{ removeEventListener('pointerdown',retry); removeEventListener('scroll',retry); };
-      addEventListener('pointerdown',retry,{once:true});
-      addEventListener('scroll',retry,{once:true});
-    });
-  }
-  v.addEventListener('loadeddata',tocar,{once:true});
-  tocar();
-
-  // sem o arquivo, fica so o poster
-  v.addEventListener('error',()=>v.remove(),true);
-
-  // pausa quando o hero sai da tela: nao gasta bateria rodando escondido
-  new IntersectionObserver(es=>{
-    es[0].isIntersecting ? v.play().catch(()=>{}) : v.pause();
-  },{threshold:.01}).observe(v);
-})();
-
-/* ---------- mídia da seção "O escritório" (config em data.js: STUDIO_MEDIA) ---------- */
-(function studioMedia(){
-  const box=$('#studioMedia'); if(!box) return;
-  const m=(typeof STUDIO_MEDIA!=='undefined' && STUDIO_MEDIA) || {type:'image',src:'img/number-one/02.webp'};
-  if(m.type==='video' && m.src){
-    box.innerHTML=`<img src="${m.poster||''}" alt="" class="m-poster">
-      <video autoplay muted loop playsinline preload="metadata" ${m.poster?`poster="${m.poster}"`:''} aria-label="Processo construtivo PLATINUM">
-        <source src="${m.src}">
-      </video>`;
-    const v=$('video',box);
-    if(reduce){ v.removeAttribute('autoplay'); v.pause(); }
-    v.addEventListener('error',()=>v.remove(),true);
-  } else {
-    box.innerHTML=`<img src="${m.src}" alt="PLATINUM — obra em andamento" loading="lazy">`;
-  }
-})();
 
 /* ---------- estúdio: a abertura escurece e o título sobe conforme a página desliza sobre a foto ---------- */
 (function estudioHero(){

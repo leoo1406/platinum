@@ -1,16 +1,4 @@
 /* ------------------------------------------------------------
-  Esse arquivo é um .js que controla as fotos
-  PÁGINA HOME - BREVE DESCRIÇÃO P/CONHECER O ESCRITÓRIO
-  (FORA DE USO: o manifesto da home agora tem 3 imagens fixas no
-   index.html, arquivos em img/manifesto/. Pode apagar este bloco.)
-   ------------------------------------------------------------ */
-const STUDIO_MEDIA = {
-  type: "image",
-  src: 'img/louvre-home-flats/capa.webp',
-  poster: 'img/louvre-home-flats/capa.webp',
-};
-
-/* ------------------------------------------------------------
    PROJETOS EM DESTAQUE NA HOME — seis slugs, em dois grupos de três.
    Grupo 1: o 1º é o principal (grande, à esquerda); 2º e 3º à direita.
    Grupo 2: o 6º é o principal (grande, à direita); 4º e 5º à esquerda.
