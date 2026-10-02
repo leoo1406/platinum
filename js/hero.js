@@ -19,12 +19,17 @@ const hero=document.getElementById('hero');
 const box=document.getElementById('heroScenes');
 if(!hero||!box) return;
 
-const SCENES=[
+const TODAS=[
   { dur:8,  wide:{video:'img/hero/cena-1.mp4', poster:'img/hero/cena-1.webp'}, tall:null },
   { dur:8,  wide:{image:'img/hero/cena-2.webp'},                               tall:null },
   { dur:10, wide:{video:'img/hero.mp4', poster:'img/hero-poster.webp'},
-            tall:{video:'img/hero-mobile.mp4', poster:'img/hero-poster-mobile.webp'}, text:false, interior:true },
+            tall:{video:'img/hero-mobile.mp4', poster:'img/hero-poster-mobile.webp'}, video:true },
 ];
+/* HERO_SO_VIDEO = true → só o vídeo (cena 3), em loop, com o título à esquerda.
+   As duas imagens (cenas 1 e 2) continuam aqui e na pasta img/hero/: para voltar às 3 cenas,
+   troque para false (e, se quiser o interno sem texto, recoloque  text:false  na cena 3). */
+const HERO_SO_VIDEO=true;
+const SCENES=HERO_SO_VIDEO ? TODAS.filter(sc=>sc.video) : TODAS;
 const FADE=1.6;                 // tempo do cruzamento entre cenas (s) — igual ao .hs do css/hero.css
 
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -39,7 +44,7 @@ const S=SCENES.map((sc,i)=>{
   const o={sc,el,video:null};
   if(m.video){
     const v=document.createElement('video');
-    v.muted=true; v.loop=false; v.playsInline=true; v.preload=i===0?'auto':'metadata';
+    v.muted=true; v.loop=SCENES.length===1; v.playsInline=true; v.preload=i===0?'auto':'metadata';
     v.setAttribute('muted',''); v.setAttribute('playsinline','');
     if(m.poster) v.poster=m.poster;
     v.addEventListener('error',()=>{ v.remove(); o.video=null;           // sem vídeo, fica a foto
@@ -78,11 +83,11 @@ function show(i){
   if(prev>=0&&prev!==i) setTimeout(()=>{ if(cur!==prev) arm(S[prev]); },FADE*1000+120);
   // a próxima cena já carrega, mas fica parada no 1º quadro
   const next=S[(i+1)%S.length]; if(next!==S[i]&&next!==S[prev]) arm(next);
-  hero.classList.toggle('is-int',S[i].sc.text===false);
+  if(S[i].sc.text===false) hero.classList.add('is-int');
 }
 function tick(now){
   raf=requestAnimationFrame(tick);
-  if(paused) return;
+  if(paused||S.length<2) return;               // cena única: o próprio vídeo fica em loop
   const o=S[cur];
   if((now-t0)/1000 >= o.sc.dur-FADE){ t0=now; show((cur+1)%S.length); }
 }
@@ -106,6 +111,20 @@ new IntersectionObserver(es=>{
     S.forEach(s=>s.video&&s.video.pause());
   }
 },{threshold:.01}).observe(hero);
+
+/* ---------- texto do topo: fica TEXTO_SEG segundos e some, sobrando só o vídeo ----------
+   O tempo começa quando o título termina de aparecer (depois do carregamento).
+   Ao voltar para o Início, ou rolar de volta até o topo, o texto aparece de novo pelo mesmo tempo. */
+const TEXTO_SEG=5;
+const h1=hero.querySelector('.hero-in h1');
+let tTexto=0;
+if(h1) new MutationObserver(()=>{
+  clearTimeout(tTexto);
+  if(h1.classList.contains('rv')){
+    hero.classList.remove('is-int');
+    tTexto=setTimeout(()=>hero.classList.add('is-int'),TEXTO_SEG*1000+900);   // +0,9 s = entrada do título
+  }else hero.classList.remove('is-int');
+}).observe(h1,{attributes:true,attributeFilter:['class']});
 
 if(reduce){ paused=true; hero.classList.add('paused'); }
 show(0); t0=performance.now();

@@ -25,9 +25,17 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <!-- marca em vetor: mesma geometria da logo original (img/marca.webp); traço de 1px em qualquer tamanho -->
   <symbol id="logo" viewBox="219 243 642 594"><path d="M535.3 252.6L842.2 827.5L228.4 827.5Z" vector-effect="non-scaling-stroke"/><path d="M236.8 449.1L850.6 449.1L648.8 827.5M438.8 827.5L236.8 449.1" vector-effect="non-scaling-stroke"/><path d="M538.6 323.5L713.6 746.5L363.6 746.6Z" vector-effect="non-scaling-stroke"/><path d="M238.6 808.4L543.7 657.5L834.8 813.6" vector-effect="non-scaling-stroke"/></symbol>
+  <!-- marca recortada no desenho (sem margem): o centro da caixa é o centro da logo, então ela gira no próprio eixo
+       e a ponta de cima / a base encostam exatamente no topo do PLATINUM e na base do subtítulo -->
+  <symbol id="logo-tight" viewBox="228 252 623 576"><path d="M535.3 252.6L842.2 827.5L228.4 827.5Z" vector-effect="non-scaling-stroke"/><path d="M236.8 449.1L850.6 449.1L648.8 827.5M438.8 827.5L236.8 449.1" vector-effect="non-scaling-stroke"/><path d="M538.6 323.5L713.6 746.5L363.6 746.6Z" vector-effect="non-scaling-stroke"/><path d="M238.6 808.4L543.7 657.5L834.8 813.6" vector-effect="non-scaling-stroke"/></symbol>
+  <!-- nome: PLATINUM e ARQUITETURA E ENGENHARIA com a MESMA largura (textLength), como na marca oficial.
+       Topo do P = y 0 · base do subtítulo = y 72 (mesma altura da marca) -->
+  <symbol id="wordmark" viewBox="0 0 330 72"><text x="0" y="32" textLength="330" lengthAdjust="spacing" class="wm-1">PLATINUM</text><text x="0" y="72" textLength="330" lengthAdjust="spacing" class="wm-2">ARQUITETURA E ENGENHARIA</text></symbol>
 </svg>
 
 <div class="frame"></div>
+<div class="cur" aria-hidden="true"></div>
+<div class="cur-r" aria-hidden="true"><span>VER</span></div>
 
 <div id="pre">
   <div class="pre-in">
@@ -38,14 +46,15 @@
 </div>
 
 <div id="curtain">
-  <div class="panels"><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="cur-mark"><img src="img/marca.webp" alt="" width="642" height="594"></div>
+  <!-- uma camada só, em grafite, com a logo clara por cima (antes eram 5 faixas em dois tons) -->
+  <div class="panels"><i></i></div>
+  <div class="cur-mark"><img src="img/marca-clara.png" alt="" width="642" height="594"></div>
 </div>
 
 <header id="hd">
-  <a href="#/" class="brand" data-link>
-    <svg class="mk brand-mark" viewBox="219 243 642 594" aria-hidden="true"><use href="#logo"/></svg>
-    <span><b>PLATINUM</b><small>ARQUITETURA E ENGENHARIA</small></span>
+  <a href="#/" class="brand lockup" data-link aria-label="PLATINUM Arquitetura e Engenharia — início">
+    <svg class="mk brand-mark" viewBox="0 0 623 576" aria-hidden="true"><use href="#logo-tight"/></svg>
+    <svg class="brand-name" viewBox="0 0 330 72" role="img" aria-label="PLATINUM Arquitetura e Engenharia"><use href="#wordmark"/></svg>
   </a>
   <nav class="nav">
     <a href="#/" data-link data-route="home">Início</a>
@@ -82,7 +91,8 @@
 
   <div class="hero" id="hero">
     <!-- ===== HERO PLATINUM (css/hero.css + js/hero.js; cenas configuradas no topo de hero.js) =====
-         3 cenas em sequência: vídeo 1 → imagem 2 → interno. A palavra PLATINUM já vem nos arquivos. -->
+         Por enquanto só o vídeo (img/hero.mp4) com o texto à esquerda. As duas imagens continuam
+         na pasta img/hero/ e no topo de js/hero.js, só desligadas (HERO_SO_VIDEO). -->
     <div class="hero-media" id="heroScenes" aria-hidden="true"></div>
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="hero-prog" id="heroProg">
@@ -187,7 +197,7 @@
           <div class="dif-body" id="difP1" role="region" aria-labelledby="difB1"><h3>Marcos arquitetônicos</h3><p>Edifícios que se tornam referência na paisagem de Santa Catarina.</p></div>
         </article>
         <article class="dif" style="--ar:0.8">
-          <figure class="dif-media"><img src="img/yangzhou/01.webp" alt="" loading="lazy" width="1000" height="1250"></figure>
+          <figure class="dif-media"><img src="img/yangzhou/capa.webp" alt="" loading="lazy" width="1000" height="1250"></figure>
           <button class="dif-btn" id="difB2" type="button" aria-expanded="false" aria-controls="difP2"><i class="dif-ic" aria-hidden="true"></i><span class="dif-v">Inovação temática</span></button>
           <div class="dif-body" id="difP2" role="region" aria-labelledby="difB2"><h3>Inovação temática</h3><p>Cada torre parte de um conceito próprio, e não de um repertório repetido.</p></div>
         </article>
@@ -211,7 +221,7 @@
         <div>
           <h2 class="up" style="margin-top:24px">Projetos em destaque</h2>
         </div>
-        <a href="#/projetos" data-link class="btn up"><span>Ver os 6 projetos</span><i></i></a>
+        <a href="#/projetos" data-link class="btn up"><span>Ver todos os projetos</span><i></i></a>
       </div>
       <div class="mosaic" id="homeGrid"></div>
     </div>
@@ -281,6 +291,20 @@
     </div>
   </section>
 
+  <!-- ===== EQUIPE: foto da equipe PLATINUM =====
+       Foto: img/estudio/equipe.webp (2400 x 1600 px, 3:2, qualidade 82).
+       Enquanto o arquivo não existir aparece um quadro neutro no lugar. Enquadramento: --pos no <img>. -->
+  <section class="st-team">
+    <div class="wrap">
+      <figure class="st-team-fig clip">
+        <img src="img/estudio/equipe.webp" alt="Equipe PLATINUM Arquitetura e Engenharia" width="2400" height="1600" loading="lazy" decoding="async"
+             onerror="this.parentNode.classList.add('vazio')">
+        <div class="st-team-vazio" aria-hidden="true"><svg class="mk" viewBox="0 0 623 576"><use href="#logo-tight"/></svg><span>Foto da equipe</span></div>
+      </figure>
+      <div class="st-team-cap up"><span>A equipe PLATINUM</span><span>Itapema · Santa Catarina</span></div>
+    </div>
+  </section>
+
   <section class="numeros st-numeros">
     <div class="wrap">
       <div class="stats" id="statsEstudio">
@@ -302,8 +326,6 @@
       </ol>
     </div>
   </section>
-
-  <div class="band outline"><div class="track" id="band2"></div></div>
 
   <section class="st-cta st-par" aria-label="Legacy, Itapema">
     <img class="st-par-img" src="img/legacy/capa.webp" alt="" width="2048" height="1493" loading="lazy" decoding="async" style="--pos:center 40%">
@@ -348,7 +370,7 @@
 
 <footer>
   <div class="f-top">
-    <a href="#/" class="f-brand" data-link><svg class="mk" viewBox="219 243 642 594" aria-hidden="true"><use href="#logo"/></svg><span>PLATINUM<small>Arquitetura e Engenharia</small></span></a>
+    <a href="#/" class="f-brand lockup" data-link aria-label="PLATINUM Arquitetura e Engenharia — início"><svg class="mk brand-mark" viewBox="0 0 623 576" aria-hidden="true"><use href="#logo-tight"/></svg><svg class="brand-name" viewBox="0 0 330 72" aria-hidden="true"><use href="#wordmark"/></svg></a>
     <nav class="f-nav" aria-label="Rodapé">
       <a href="#/" data-link>Início</a>
       <a href="#/estudio" data-link>Estúdio</a>

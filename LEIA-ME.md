@@ -1,5 +1,35 @@
 # PREMIUM — site
 
+## Atualização — 02/10/2026 (2)
+
+- **Galeria** — o título da galeria na página do projeto agora é "Galeria" (antes repetia o nome do projeto).
+- **Foto da equipe** — `img/estudio/equipe.jpg` (6036 × 4024, 1,5 MB) virou `img/estudio/equipe.webp`
+  (2400 × 1600, qualidade 82, 142 KB). O quadro passou para 3:2, a proporção da foto, então ela aparece inteira.
+  O .jpg foi retirado da pasta do site.
+- **Texto do hero** — aparece por 5 s e some, ficando só o vídeo. Para mudar o tempo: `TEXTO_SEG` em `js/hero.js`.
+  Ao voltar para o Início (ou rolar de volta até o topo) o texto aparece de novo pelo mesmo tempo.
+
+## Atualização — 02/10/2026
+
+1. **Hero só com o vídeo** — `img/hero.mp4` (celular: `hero-mobile.mp4`) em loop, com o título e o texto à esquerda.
+   As duas imagens continuam em `img/hero/` e no topo de `js/hero.js`, só desligadas: `HERO_SO_VIDEO = false` volta às 3 cenas.
+2. **Logo + nome alinhados** — o lockup agora segue a marca oficial: a ponta da logo encosta no topo do PLATINUM,
+   a base encosta na base de ARQUITETURA E ENGENHARIA, e as duas linhas têm a mesma largura (símbolos `#logo-tight`
+   e `#wordmark` no topo do `index.html`). Tamanho: `--lk-h` em `.lockup` (38px no desktop, 32px no celular, 36px no rodapé).
+   O desalinhamento antigo vinha de um erro no `<use>` da logo, que desenhava a marca ~14px acima e à esquerda da própria caixa.
+3. **Rotação** — no hover a logo gira 180° em torno do próprio centro (antes 90°, e "orbitando" por causa do mesmo erro).
+4. **Transição entre páginas** — uma camada só, em grafite, com a logo clara (`img/marca-clara.png`) girando 180° ao entrar. Sem faixas.
+5. **Foto da equipe** — nova seção no Estúdio, logo depois do texto. Coloque o arquivo em `img/estudio/equipe.webp`
+   (horizontal, ~2400 × 1350). Enquanto ele não existir aparece um quadro neutro com a logo.
+6. **Faixa das cidades** (Porto Belo · Santa Catarina · Itapema) removida do Estúdio.
+7. **Celular** — o lockup tem 28px de folga da borda (respeita também o recorte do iPhone).
+8. **Galeria sem borda** — o quadro assume a proporção de cada foto (`fit()` em `initGallery`, no `js/site.js`), então não sobra faixa clara.
+9. **"Ver todos os projetos"** no lugar de "Ver os 6 projetos".
+10. **Cursor** — bolinha + anel que segue o mouse, igual ao rs-concept. Sobre cards e fotos da galeria o anel cresce e mostra "VER".
+    Só aparece em computador com mouse.
+
+---
+
 ## Atualização — nova identidade (paleta, fontes, logo)
 
 **Empreendimentos** — o site agora tem só 6: Obelisco Skyhomes, Legacy, Louvre Home Flats,
@@ -361,7 +391,7 @@ A imagem real não gira.
 **Zoom** — botões − / + (até 500%), clique no percentual para voltar a 100%, duplo clique para ampliar
 no ponto, arrastar para mover e pinça no celular. O zoom volta a 100% ao trocar entre traço e imagem real.
 
-**Cursor** — o cursor personalizado (bolinha) foi removido do site inteiro; vale o cursor padrão do sistema. Para o traço ficar preto no branco em vez de claro,
+Para o traço ficar preto no branco em vez de claro,
 troque as cores em `.pl-walls`, `.pl-fix` etc. no fim do `css/obra.css`.
 
 ---

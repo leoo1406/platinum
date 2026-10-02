@@ -17,7 +17,19 @@ window.addEventListener('load',()=>setTimeout(finish,reduce?80:1500));
 setTimeout(finish,reduce?150:3200);
 document.body.classList.add('lock');
 
-/* cursor personalizado removido: o site usa o cursor padrão do sistema */
+/* ---------- cursor: bolinha + anel que segue com atraso (igual ao rs-concept) ----------
+   Só em computador com mouse. Sobre os cards e a foto da galeria o anel cresce e mostra "VER". */
+if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
+  const d=$('.cur'),r=$('.cur-r'); let x=-100,y=-100,rx=-100,ry=-100;
+  document.body.classList.add('has-cur');
+  addEventListener('mousemove',e=>{x=e.clientX;y=e.clientY;d.style.transform=`translate(${x}px,${y}px)`});
+  (function loop(){rx+=(x-rx)*.14;ry+=(y-ry)*.14;r.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
+  document.addEventListener('mouseover',e=>{
+    document.body.classList.toggle('cur-lg',!!e.target.closest('.card,.gal-track figure.on'));
+  });
+  document.addEventListener('mouseleave',()=>document.body.classList.add('cur-off'));
+  document.addEventListener('mouseenter',()=>document.body.classList.remove('cur-off'));
+}
 
 function split(el){
   if(el.dataset.done) return; el.dataset.done=1;
@@ -294,7 +306,7 @@ function renderProject(slug){
   </section>
   <section class="gal-sec" aria-roledescription="galeria" aria-label="Galeria de ${p.title}">
     <div class="gal-head">
-      <div><h2 class="up">${p.title}</h2></div>
+      <div><h2 class="up">Galeria</h2></div>
       <div class="gal-count" aria-live="polite"><b id="galCur">01</b> / ${pad2(imgs.length)}</div>
     </div>
     <div class="gal-stage" id="galStage" tabindex="0" aria-label="Imagens de ${p.title}. Use as setas do teclado para navegar.">
@@ -472,6 +484,18 @@ function initGallery(imgs){
   let i=0, swiped=false;
   const load=k=>{ const im=figsG[k]&&$('img',figsG[k]); if(im&&!im.src&&im.dataset.src){ im.src=im.dataset.src; } };
   const preload=()=>{ load(i); if(imgs.length>1){ load((i+1)%imgs.length); load((i-1+imgs.length)%imgs.length); } };
+  /* o quadro ganha a proporção da foto atual: altura máxima fixa, largura acompanha a imagem.
+     Assim não sobra faixa clara em volta, mesmo com fotos de tamanhos diferentes. */
+  function fit(){
+    const im=$('img',figsG[i]); if(!im||!im.naturalWidth) return;
+    const ar=im.naturalWidth/im.naturalHeight, mob=innerWidth<=768;
+    const maxW=mob?innerWidth-36:Math.min(innerWidth*.82,1520);
+    const maxH=mob?Math.min(innerHeight*.65,maxW*1.25):Math.min(innerHeight*.78,maxW*.625);
+    let w=maxW, h=w/ar; if(h>maxH){ h=maxH; w=h*ar; }
+    stage.style.width=Math.round(w)+'px'; stage.style.height=Math.round(h)+'px';
+  }
+  figsG.forEach((f,k)=>$('img',f).addEventListener('load',()=>{ if(k===i) fit(); }));
+  addEventListener('resize',()=>{ if(stage.isConnected) fit(); });
   function show(n,dir){
     n=(n+imgs.length)%imgs.length; if(n===i&&figsG[n].classList.contains('on')) return;
     stage.dataset.dir=dir||(n>i?'next':'prev');
@@ -481,10 +505,10 @@ function initGallery(imgs){
       else f.classList.remove('out');
     });
     dots.forEach((d,k)=>{ d.classList.toggle('on',k===n); d.setAttribute('aria-selected',k===n?'true':'false'); });
-    i=n; cur.textContent=pad2(i+1); preload();
+    i=n; cur.textContent=pad2(i+1); preload(); fit();
   }
   dots[0].classList.add('on');
-  preload();
+  preload(); fit();
   $('#galP').onclick=()=>show(i-1,'prev');
   $('#galN').onclick=()=>show(i+1,'next');
   dots.forEach((d,k)=>d.onclick=()=>show(k));
