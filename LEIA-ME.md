@@ -1,5 +1,19 @@
 # PREMIUM — site
 
+## Atualização — 06/10/2026
+
+- **Vídeo do hero** — trocado pelo novo (entrada no apartamento). Mesmo esquema de antes: mudo, em loop, 10 s, 24 fps.
+  - `img/hero.mp4` — 1920 × 1080 (antes 1280 × 720), H.264, 5,5 MB (original 7,9 MB). Sem áudio (o vídeo já tocava mudo).
+    Compressão CRF 22: SSIM 0,992 em relação ao original, diferença invisível.
+  - `img/hero-mobile.mp4` — recorte vertical 9:16 do centro do vídeo, 608 × 1080 (resolução nativa, sem ampliar), 2,1 MB.
+  - `img/hero-poster.webp` e `img/hero-poster-mobile.webp` — 1º quadro do vídeo novo.
+- **Marca PLATINUM** — agora é o vetor do IDV (pág. 7, "Grid layouts"), copiado do PDF: o PLATINUM desenhado
+  (A sem travessão) e "ARQUITETURA DE ALTO PADRÃO." em Outfit Thin, já em curvas. Símbolos `#lk-mark` e `#wordmark`
+  no topo do `index.html`. A régua é a do PDF: a ponta da logo passa acima do nome, o topo do PLATINUM fica na linha
+  horizontal da logo e a base do subtítulo na base da logo. Subtítulo na mesma cor do nome, como no PDF.
+  Tamanho: `--lk-h` = altura do conjunto (48px no desktop, 42px no celular, 52px no rodapé).
+  O preloader também usa o PLATINUM em vetor (`#wm-platinum`).
+
 ## Atualização — 02/10/2026 (2)
 
 - **Galeria** — o título da galeria na página do projeto agora é "Galeria" (antes repetia o nome do projeto).
@@ -14,7 +28,7 @@
 1. **Hero só com o vídeo** — `img/hero.mp4` (celular: `hero-mobile.mp4`) em loop, com o título e o texto à esquerda.
    As duas imagens continuam em `img/hero/` e no topo de `js/hero.js`, só desligadas: `HERO_SO_VIDEO = false` volta às 3 cenas.
 2. **Logo + nome alinhados** — o lockup agora segue a marca oficial: a ponta da logo encosta no topo do PLATINUM,
-   a base encosta na base de ARQUITETURA E ENGENHARIA, e as duas linhas têm a mesma largura (símbolos `#logo-tight`
+   a base encosta na base de Arquitetura de Alto Padrão, e as duas linhas têm a mesma largura (símbolos `#logo-tight`
    e `#wordmark` no topo do `index.html`). Tamanho: `--lk-h` em `.lockup` (38px no desktop, 32px no celular, 36px no rodapé).
    O desalinhamento antigo vinha de um erro no `<use>` da logo, que desenhava a marca ~14px acima e à esquerda da própria caixa.
 3. **Rotação** — no hover a logo gira 180° em torno do próprio centro (antes 90°, e "orbitando" por causa do mesmo erro).

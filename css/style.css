@@ -106,7 +106,7 @@ body.cur-off .cur,body.cur-off .cur-r{opacity:0}
 .pre-mark{width:clamp(150px,16vw,210px);margin:0 auto 30px}
 .pre-mark img{width:100%;clip-path:inset(100% 0 0 0);animation:sobe 1.5s var(--ease-io) forwards}
 @keyframes sobe{to{clip-path:inset(0 0 0 0)}}
-.pre-name{font-family:var(--f-title);font-size:13px;letter-spacing:.56em;text-indent:.62em;color:var(--grafite);opacity:0;animation:fadeUp .9s .5s var(--ease) forwards}
+.pre-name{display:block;width:clamp(150px,14vw,190px);height:auto;margin:0 auto;overflow:visible;color:var(--grafite);opacity:0;animation:fadeUp .9s .5s var(--ease) forwards}
 .pre-bar{width:min(180px,40vw);height:1px;background:rgba(163,154,142,.3);margin:20px auto 0;overflow:hidden}
 .pre-bar i{display:block;height:100%;width:0;background:var(--grafite);animation:load 2.6s var(--ease-io) forwards}
 @keyframes load{to{width:100%}}
@@ -138,15 +138,13 @@ header.hide{transform:translateY(-140%)}
 header.solid{background:rgba(242,239,232,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   padding-top:calc(var(--frame) + 6px);padding-bottom:14px;box-shadow:0 1px 0 rgba(50,49,47,.08)}
 body.menu-open header{--hd-fg:var(--creme);--hd-2:var(--areia);--hd-line:rgba(242,239,232,.3);background:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
-/* ---------- lockup (marca + nome), igual à marca oficial ----------
-   --lk-h = altura do conjunto. A marca tem exatamente essa altura: a ponta encosta no topo do
-   PLATINUM e a base na base de ARQUITETURA E ENGENHARIA. As duas linhas têm a mesma largura. */
-.lockup{--lk-h:38px;--lk-2:var(--hd-2);display:flex;align-items:center;gap:calc(var(--lk-h) * .36);line-height:0}
-.lockup .brand-mark{height:var(--lk-h);width:auto;aspect-ratio:623/576;flex:none;transform-origin:50% 50%;transition:transform .9s var(--ease)}
+/* ---------- lockup (marca + nome) = grid oficial do IDV (pág. 7) ----------
+   --lk-h = altura do conjunto (ponta da logo → base do subtítulo). A logo e o nome têm essa altura;
+   o topo do PLATINUM fica na linha horizontal da logo e a base do subtítulo na base da logo. */
+.lockup{--lk-h:48px;display:flex;align-items:center;gap:calc(var(--lk-h) * .35);line-height:0}
+.lockup .brand-mark{height:var(--lk-h);width:auto;aspect-ratio:164.38/151.78;flex:none;transform-origin:50% 50%;transition:transform .9s var(--ease)}
 .lockup:hover .brand-mark,.lockup:focus-visible .brand-mark{transform:rotate(180deg)}
-.lockup .brand-name{height:var(--lk-h);width:auto;aspect-ratio:330/72;flex:none;overflow:visible}
-.wm-1{font-family:var(--f-title);font-size:45.7px;fill:currentColor}
-.wm-2{font-family:var(--f-sub);font-weight:500;font-size:14.3px;fill:var(--lk-2);transition:fill .4s}
+.lockup .brand-name{height:var(--lk-h);width:auto;aspect-ratio:487/151.78;flex:none;overflow:visible}
 .nav{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:34px}
 .nav a{font-family:var(--f-sub);font-size:11px;font-weight:500;letter-spacing:.2em;text-indent:.22em;text-transform:uppercase;position:relative;padding:6px 0;opacity:.82;transition:opacity .3s}
 .nav a::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
@@ -163,7 +161,7 @@ body.menu-open .burger i:last-child{transform:translateY(-3.5px) rotate(-45deg)}
   .nav{display:none}
   header{padding:max(24px,env(safe-area-inset-top)) max(28px,env(safe-area-inset-right)) 20px max(28px,env(safe-area-inset-left))}
   header.solid{padding-top:16px;padding-bottom:14px}
-  .lockup{--lk-h:32px}
+  .lockup{--lk-h:42px}
 }
 
 #menu{position:fixed;inset:0;z-index:70;background:var(--grafite);
@@ -474,7 +472,7 @@ section{padding:clamp(72px,9.5vw,144px) var(--gut);position:relative}
 /* ---------- footer ---------- */
 footer{background:var(--grafite);border-top:1px solid var(--line);padding:clamp(40px,5vw,64px) var(--gut) 30px}
 .f-top{display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;padding-bottom:30px;border-bottom:1px solid var(--line)}
-.f-brand{color:var(--creme);--lk-h:36px;--lk-2:var(--areia)}
+.f-brand{color:var(--creme);--lk-h:52px}
 .f-nav{display:flex;gap:clamp(18px,2.5vw,34px);flex-wrap:wrap}
 .f-nav a,.f-meta a,.f-meta span{font-family:var(--f-sub);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--linho);transition:color .3s}
 .f-nav a:hover,.f-meta a:hover{color:var(--areia)}

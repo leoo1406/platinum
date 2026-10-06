@@ -597,7 +597,7 @@ function route(){
   scan($(`.page[data-page="${target}"]`));
   const nome = target==='projeto' ? (PROJECTS.find(p=>p.slug===slug)||{}).title
              : target==='home' ? null : target[0].toUpperCase()+target.slice(1);
-  document.title = nome ? 'PLATINUM | '+nome : 'PLATINUM | Arquitetura e Engenharia';
+  document.title = nome ? 'PLATINUM | '+nome : 'PLATINUM | Arquitetura de Alto Padrão';
 }
 
 let navegando=false;
