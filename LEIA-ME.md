@@ -1,5 +1,59 @@
 # PREMIUM — site
 
+## Atualização — 15/10/2026 (2): faixa de Patrocinadores
+
+Nova seção na home, entre **Projetos em destaque** e **Tem um terreno e uma ideia?**: duas faixas em loop,
+em sentidos opostos, com o ícone de cada patrocinador e o nome escrito ao lado (em Montserrat).
+
+- **Lista** — `PATROCINADORES` no fim do `js/data.js` (`nome`, `logo`, e `mono`/`ar` nos ícones de uma cor só).
+  Para incluir ou tirar um patrocinador, mexa só ali.
+- **Ícones** — `img/patrocinadores/*.svg`: só o símbolo, recortado das logos enviadas e vetorizado.
+  Os de uma cor só (Poti, Mètre, Zanella, Andorinha) assumem a cor do texto, então funcionam no fundo claro.
+- **Comportamento** — no computador os ícones ficam em cinza e ganham a cor original no hover, e a faixa
+  pausa com o mouse em cima. No celular os ícones já aparecem coloridos.
+  Velocidade: `58` e `66` (segundos por volta) em `patrocinadores()` no `js/site.js`.
+- **Estilo** — bloco `.pat` no `css/style.css`.
+- **Banner dos artistas** — logo abaixo das faixas, `img/artistas-platinum.webp` (2048 × 684, convertido do PNG, 124 KB).
+  Para trocar, substitua o arquivo mantendo a mesma proporção (ou ajuste `width`/`height` no `<img>` do `index.html`).
+
+## Atualização — 15/10/2026: identidade RS Platinum (logo, fontes, cores)
+
+Só mudaram logo, tipografia e cores, conforme o **Manual de Identidade Visual RS Platinum**. Estrutura, textos,
+animações, rotas e JS continuam iguais.
+
+**Logo** — vetores dos arquivos-mestre (`RS_PLATINUM_LOGO_VETOR.svg` e `RS_PLATINUM_MARCA_BLACK.svg`), em curvas,
+nos símbolos do topo do `index.html` (mesmos ids de antes, para nada quebrar):
+`#lk-mark`, `#logo`, `#logo-tight` = monograma "RS" (cubo) · `#wordmark`, `#wm-platinum` = RAFAEL SCHMITT + bloco PLATINUM.
+A cor vem de `currentColor` (preto no claro, branco no escuro). Header e rodapé usam o lockup horizontal do manual:
+`--lk-h` = altura do cubo (54px desktop, 46px celular, 62px rodapé); a assinatura tem .46 dessa altura.
+O preloader mostra a versão vertical (cubo + assinatura). A rotação de 180° no hover e na cortina continua.
+Regerados a partir do vetor: `img/marca.webp`, `img/marca.png`, `img/marca-clara.png`, `img/marca.svg`,
+`img/favicon.svg`, `img/favicon-64.png`, `img/apple-touch-icon.png`.
+
+**Fontes** — `--f-title` e `--f-sub` = Montserrat (títulos em Bold 700 via `--w-title`; rótulos e menus em Montserrat),
+`--f-body` = Artifakt Element (corpo de texto e as cotas da planta animada). Nexa Heavy só existe dentro do logo (em curvas).
+Montserrat está em `fonts/Montserrat-Variable.woff2` (OFL). Artifakt Element é da Autodesk: o CSS usa a fonte instalada no
+computador, depois `fonts/ArtifaktElement-Regular.woff2` / `-Bold.woff2` (se você colocar esses arquivos lá) e por último o CDN
+oficial da Autodesk. Para o site não depender de servidor externo, baixe os dois .woff2 e ponha em `/fonts`.
+Tenor Sans, DM Sans e Inter foram removidas.
+
+**Cores** — bloco `:root` do `css/style.css`:
+
+| variável | cor | uso |
+|---|---|---|
+| `--preto` | #000000 | texto principal no claro |
+| `--branco` | #FFFFFF | fundo principal, texto no escuro (antes `--creme`) |
+| `--nevoa` | #E8E8E8 | painéis, manifesto, galeria (antes `--linho`) |
+| `--platina` | #8A8D8F | destaque: botões, linhas, faixas (antes `--areia`) |
+| `--aco` | #A8A8A8 | traços e texto secundário no escuro (antes `--taupe`) |
+| `--chumbo` | #1E2022 | blocos escuros: hero, obra, chamada, menu, rodapé (antes `--grafite`) |
+
+#E8E8E8 e #A8A8A8 são do gradiente metálico de referência do manual (`--metal`). Todos os `rgba()` antigos foram
+convertidos para as cores novas, inclusive em `js/obra.js` e nos SVGs do manifesto; `img/obra/torre-luz.webp` foi recolorida
+de areia para aço.
+
+---
+
 ## Atualização — 06/10/2026
 
 - **Vídeo do hero** — trocado pelo novo (entrada no apartamento). Mesmo esquema de antes: mudo, em loop, 10 s, 24 fps.
@@ -93,7 +147,7 @@ Exporte as plantas com 2000 px no lado maior para o zoom ficar nítido, só com 
 **Planta da animação da obra** — agora em pé, igual à imagem real, com textos maiores. As portas são
 vãos abertos nas paredes (sem folha nem arco): para mudar um, ajuste os dois pedaços de parede em
 volta dele no bloco "1. ESTRUTURA" do `js/planta.js`.
-Os quatro números que ficavam embaixo da animação (Top 3, 25 anos...) foram removidos.
+Os quatro números que ficavam embaixo da animação (Top 3, 26 anos...) foram removidos.
 
 ---
 

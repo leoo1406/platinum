@@ -251,3 +251,27 @@ const PROJECTS = [
     ],
   },
 ];
+
+
+/* ------------------------------------------------------------
+   PATROCINADORES — faixa da home, entre "Projetos em destaque" e "Tem um terreno".
+   logo : ícone em SVG (só o símbolo, sem o nome — o nome vem escrito ao lado)
+   mono : true = ícone de uma cor só; ele assume a cor do texto (fica certo no claro e no escuro)
+   ar   : proporção largura/altura do SVG (só nos mono), para o ícone não deformar
+   A ordem aqui é a da 1ª linha; a 2ª linha começa do meio da lista e anda no sentido contrário.
+   Para incluir mais um: salve o SVG em img/patrocinadores/ e acrescente uma linha.
+   ------------------------------------------------------------ */
+const PATROCINADORES = [
+  { nome: "Santana",        logo: "img/patrocinadores/santana.svg" },
+  { nome: "Grupo N1",       logo: "img/patrocinadores/grupo-n1.svg" },
+  { nome: "Pasqualotto",    logo: "img/patrocinadores/pasqualotto.svg" },
+  { nome: "Coned",          logo: "img/patrocinadores/coned.svg" },
+  { nome: "Poti S/A",       logo: "img/patrocinadores/poti.svg",        mono: true, ar: "565/192" },
+  { nome: "Selent & Anjos", logo: "img/patrocinadores/selent-anjos.svg" },
+  { nome: "AGV Selent",     logo: "img/patrocinadores/agv-selent.svg" },
+  { nome: "Mètre",          logo: "img/patrocinadores/metre.svg",       mono: true, ar: "605/431" },
+  { nome: "Zanella",        logo: "img/patrocinadores/zanella.svg",     mono: true, ar: "436/442" },
+  { nome: "Versatille",     logo: "img/patrocinadores/versatille.svg" },
+  { nome: "Tedesco",        logo: "img/patrocinadores/tedesco.svg" },
+  { nome: "Andorinha",      logo: "img/patrocinadores/andorinha.svg",   mono: true, ar: "526/521" },
+];

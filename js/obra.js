@@ -38,8 +38,8 @@ const PH = [
 ];
 const T_TOWER0=7.4, T_TOWER1=21;
 
-const pw = a => `rgba(242,239,232,${a})`;   /* creme */
-const rw = a => `rgba(208,191,171,${a})`;   /* areia */
+const pw = a => `rgba(255,255,255,${a})`;   /* branco */
+const rw = a => `rgba(138,141,143,${a})`;   /* platina */
 const cl = (v,a=0,b=1) => v<a?a:v>b?b:v;
 const ss = (a,b,t) => { const x=cl((t-a)/(b-a)); return x*x*(3-2*x); };
 const eio = x => x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
@@ -408,5 +408,5 @@ new ResizeObserver(()=>resize()).observe(cv);
 
 window.obraGo=t=>{pause();userPaused=true;go(t);};
 if(reduce){ T=DUR; }
-(document.fonts&&document.fonts.load ? document.fonts.load('400 12px "DM Sans"') : Promise.resolve()).finally(()=>{ resize(); setState(); });
+(document.fonts&&document.fonts.load ? document.fonts.load('400 12px "Artifakt Element"') : Promise.resolve()).finally(()=>{ resize(); setState(); });
 })();

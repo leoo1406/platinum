@@ -216,6 +216,21 @@ function mosaic(list){
 const featured = (typeof HOME_FEATURED!=='undefined' ? HOME_FEATURED.map(s=>PROJECTS.find(p=>p.slug===s)).filter(Boolean) : []);
 $('#homeGrid').innerHTML = mosaic(featured.length===6 ? featured : PROJECTS.slice(0,6));
 
+/* ---------- PATROCINADORES: duas faixas em loop, sentidos opostos (lista em data.js) ---------- */
+(function patrocinadores(){
+  const box=$('#patRows'); if(!box||typeof PATROCINADORES==='undefined'||!PATROCINADORES.length) return;
+  const item=(p,dup)=>`<div class="pat-item"${dup?' aria-hidden="true"':''}>`+
+    (p.mono ? `<span class="pat-ic pat-mono" style="-webkit-mask-image:url('${p.logo}');mask-image:url('${p.logo}');aspect-ratio:${p.ar||1}"></span>`
+            : `<img class="pat-ic" src="${p.logo}" alt="" loading="lazy" decoding="async">`)+
+    `<span class="pat-nm">${p.nome}</span></div>`;
+  const row=(list,rev,dur)=>{
+    const h=list.map(p=>item(p,false)).join(''), d=list.map(p=>item(p,true)).join('');
+    return `<div class="pat-row"><div class="pat-track${rev?' rev':''}" style="--dur:${dur}s">${h}${d}</div></div>`;
+  };
+  const a=PATROCINADORES, m=Math.ceil(a.length/2), b=[...a.slice(m),...a.slice(0,m)];
+  box.innerHTML=row(a,false,58)+row(b,true,66);
+})();
+
 const cats=['Todos',...new Set(PROJECTS.map(p=>p.cat))];
 $('#filters').innerHTML = cats.map((c,i)=>`<button class="${i?'':'on'}" data-f="${c}" aria-pressed="${i?'false':'true'}">${c}</button>`).join('');
 
