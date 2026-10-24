@@ -1,512 +1,315 @@
-# PREMIUM — site
+# Rafael Schmitt Platinum — site
 
-## Atualização — 15/10/2026 (2): faixa de Patrocinadores
-
-Nova seção na home, entre **Projetos em destaque** e **Tem um terreno e uma ideia?**: duas faixas em loop,
-em sentidos opostos, com o ícone de cada patrocinador e o nome escrito ao lado (em Montserrat).
-
-- **Lista** — `PATROCINADORES` no fim do `js/data.js` (`nome`, `logo`, e `mono`/`ar` nos ícones de uma cor só).
-  Para incluir ou tirar um patrocinador, mexa só ali.
-- **Ícones** — `img/patrocinadores/*.svg`: só o símbolo, recortado das logos enviadas e vetorizado.
-  Os de uma cor só (Poti, Mètre, Zanella, Andorinha) assumem a cor do texto, então funcionam no fundo claro.
-- **Comportamento** — no computador os ícones ficam em cinza e ganham a cor original no hover, e a faixa
-  pausa com o mouse em cima. No celular os ícones já aparecem coloridos.
-  Velocidade: `58` e `66` (segundos por volta) em `patrocinadores()` no `js/site.js`.
-- **Estilo** — bloco `.pat` no `css/style.css`.
-- **Banner dos artistas** — logo abaixo das faixas, `img/artistas-platinum.webp` (2048 × 684, convertido do PNG, 124 KB).
-  Para trocar, substitua o arquivo mantendo a mesma proporção (ou ajuste `width`/`height` no `<img>` do `index.html`).
-
-## Atualização — 15/10/2026: identidade RS Platinum (logo, fontes, cores)
-
-Só mudaram logo, tipografia e cores, conforme o **Manual de Identidade Visual RS Platinum**. Estrutura, textos,
-animações, rotas e JS continuam iguais.
-
-**Logo** — vetores dos arquivos-mestre (`RS_PLATINUM_LOGO_VETOR.svg` e `RS_PLATINUM_MARCA_BLACK.svg`), em curvas,
-nos símbolos do topo do `index.html` (mesmos ids de antes, para nada quebrar):
-`#lk-mark`, `#logo`, `#logo-tight` = monograma "RS" (cubo) · `#wordmark`, `#wm-platinum` = RAFAEL SCHMITT + bloco PLATINUM.
-A cor vem de `currentColor` (preto no claro, branco no escuro). Header e rodapé usam o lockup horizontal do manual:
-`--lk-h` = altura do cubo (54px desktop, 46px celular, 62px rodapé); a assinatura tem .46 dessa altura.
-O preloader mostra a versão vertical (cubo + assinatura). A rotação de 180° no hover e na cortina continua.
-Regerados a partir do vetor: `img/marca.webp`, `img/marca.png`, `img/marca-clara.png`, `img/marca.svg`,
-`img/favicon.svg`, `img/favicon-64.png`, `img/apple-touch-icon.png`.
-
-**Fontes** — `--f-title` e `--f-sub` = Montserrat (títulos em Bold 700 via `--w-title`; rótulos e menus em Montserrat),
-`--f-body` = Artifakt Element (corpo de texto e as cotas da planta animada). Nexa Heavy só existe dentro do logo (em curvas).
-Montserrat está em `fonts/Montserrat-Variable.woff2` (OFL). Artifakt Element é da Autodesk: o CSS usa a fonte instalada no
-computador, depois `fonts/ArtifaktElement-Regular.woff2` / `-Bold.woff2` (se você colocar esses arquivos lá) e por último o CDN
-oficial da Autodesk. Para o site não depender de servidor externo, baixe os dois .woff2 e ponha em `/fonts`.
-Tenor Sans, DM Sans e Inter foram removidas.
-
-**Cores** — bloco `:root` do `css/style.css`:
-
-| variável | cor | uso |
-|---|---|---|
-| `--preto` | #000000 | texto principal no claro |
-| `--branco` | #FFFFFF | fundo principal, texto no escuro (antes `--creme`) |
-| `--nevoa` | #E8E8E8 | painéis, manifesto, galeria (antes `--linho`) |
-| `--platina` | #8A8D8F | destaque: botões, linhas, faixas (antes `--areia`) |
-| `--aco` | #A8A8A8 | traços e texto secundário no escuro (antes `--taupe`) |
-| `--chumbo` | #1E2022 | blocos escuros: hero, obra, chamada, menu, rodapé (antes `--grafite`) |
-
-#E8E8E8 e #A8A8A8 são do gradiente metálico de referência do manual (`--metal`). Todos os `rgba()` antigos foram
-convertidos para as cores novas, inclusive em `js/obra.js` e nos SVGs do manifesto; `img/obra/torre-luz.webp` foi recolorida
-de areia para aço.
+Guia do site como ele está hoje: o que tem, como rodar, como publicar, onde editar cada coisa
+e como ligar a medição de visitas e o Google. O histórico completo de mudanças ficou em
+`ferramentas/historico-de-mudancas.md`.
 
 ---
 
-## Atualização — 06/10/2026
-
-- **Vídeo do hero** — trocado pelo novo (entrada no apartamento). Mesmo esquema de antes: mudo, em loop, 10 s, 24 fps.
-  - `img/hero.mp4` — 1920 × 1080 (antes 1280 × 720), H.264, 5,5 MB (original 7,9 MB). Sem áudio (o vídeo já tocava mudo).
-    Compressão CRF 22: SSIM 0,992 em relação ao original, diferença invisível.
-  - `img/hero-mobile.mp4` — recorte vertical 9:16 do centro do vídeo, 608 × 1080 (resolução nativa, sem ampliar), 2,1 MB.
-  - `img/hero-poster.webp` e `img/hero-poster-mobile.webp` — 1º quadro do vídeo novo.
-- **Marca PLATINUM** — agora é o vetor do IDV (pág. 7, "Grid layouts"), copiado do PDF: o PLATINUM desenhado
-  (A sem travessão) e "ARQUITETURA DE ALTO PADRÃO." em Outfit Thin, já em curvas. Símbolos `#lk-mark` e `#wordmark`
-  no topo do `index.html`. A régua é a do PDF: a ponta da logo passa acima do nome, o topo do PLATINUM fica na linha
-  horizontal da logo e a base do subtítulo na base da logo. Subtítulo na mesma cor do nome, como no PDF.
-  Tamanho: `--lk-h` = altura do conjunto (48px no desktop, 42px no celular, 52px no rodapé).
-  O preloader também usa o PLATINUM em vetor (`#wm-platinum`).
-
-## Atualização — 02/10/2026 (2)
-
-- **Galeria** — o título da galeria na página do projeto agora é "Galeria" (antes repetia o nome do projeto).
-- **Foto da equipe** — `img/estudio/equipe.jpg` (6036 × 4024, 1,5 MB) virou `img/estudio/equipe.webp`
-  (2400 × 1600, qualidade 82, 142 KB). O quadro passou para 3:2, a proporção da foto, então ela aparece inteira.
-  O .jpg foi retirado da pasta do site.
-- **Texto do hero** — aparece por 5 s e some, ficando só o vídeo. Para mudar o tempo: `TEXTO_SEG` em `js/hero.js`.
-  Ao voltar para o Início (ou rolar de volta até o topo) o texto aparece de novo pelo mesmo tempo.
-
-## Atualização — 02/10/2026
-
-1. **Hero só com o vídeo** — `img/hero.mp4` (celular: `hero-mobile.mp4`) em loop, com o título e o texto à esquerda.
-   As duas imagens continuam em `img/hero/` e no topo de `js/hero.js`, só desligadas: `HERO_SO_VIDEO = false` volta às 3 cenas.
-2. **Logo + nome alinhados** — o lockup agora segue a marca oficial: a ponta da logo encosta no topo do PLATINUM,
-   a base encosta na base de Arquitetura de Alto Padrão, e as duas linhas têm a mesma largura (símbolos `#logo-tight`
-   e `#wordmark` no topo do `index.html`). Tamanho: `--lk-h` em `.lockup` (38px no desktop, 32px no celular, 36px no rodapé).
-   O desalinhamento antigo vinha de um erro no `<use>` da logo, que desenhava a marca ~14px acima e à esquerda da própria caixa.
-3. **Rotação** — no hover a logo gira 180° em torno do próprio centro (antes 90°, e "orbitando" por causa do mesmo erro).
-4. **Transição entre páginas** — uma camada só, em grafite, com a logo clara (`img/marca-clara.png`) girando 180° ao entrar. Sem faixas.
-5. **Foto da equipe** — nova seção no Estúdio, logo depois do texto. Coloque o arquivo em `img/estudio/equipe.webp`
-   (horizontal, ~2400 × 1350). Enquanto ele não existir aparece um quadro neutro com a logo.
-6. **Faixa das cidades** (Porto Belo · Santa Catarina · Itapema) removida do Estúdio.
-7. **Celular** — o lockup tem 28px de folga da borda (respeita também o recorte do iPhone).
-8. **Galeria sem borda** — o quadro assume a proporção de cada foto (`fit()` em `initGallery`, no `js/site.js`), então não sobra faixa clara.
-9. **"Ver todos os projetos"** no lugar de "Ver os 6 projetos".
-10. **Cursor** — bolinha + anel que segue o mouse, igual ao rs-concept. Sobre cards e fotos da galeria o anel cresce e mostra "VER".
-    Só aparece em computador com mouse.
-
----
-
-## Atualização — nova identidade (paleta, fontes, logo)
-
-**Empreendimentos** — o site agora tem só 6: Obelisco Skyhomes, Legacy, Louvre Home Flats,
-Yangzhou, Sense Mare e Manhattan Flats. Os outros saíram do `js/data.js` e as pastas de imagem
-foram apagadas. As partes do site que usavam fotos de outros prédios (menu, diferenciais,
-abertura do Estúdio, Contato) agora usam fotos desses seis.
-
-**Cores** — bloco `:root` do `css/style.css`:
-
-| variável | cor | uso |
-|---|---|---|
-| `--creme` | #F2EFE8 | fundo principal |
-| `--linho` | #E2DCD0 | painéis, manifesto, galeria, cortina |
-| `--areia` | #D0BFAB | destaque: botões, linhas, faixa das cidades |
-| `--taupe` | #A39A8E | traços e texto secundário no escuro |
-| `--grafite` | #32312F | texto e blocos escuros (hero, obra, chamada, menu, rodapé) |
-
-Os blocos escuros trocam os papéis das cores na regra "TEMA ESCURO", logo abaixo do `:root`.
-O cinza médio da paleta veio rotulado #E2DCD0 na imagem, mas a cor do bloco é #A39A8E — foi a usada.
-
-**Fontes** — arquivos locais em `/fonts` (woff2, só os caracteres latinos):
-Tenor Sans = títulos (`--f-title`), DM Sans = subtítulos e informações (`--f-sub`), Inter = corpo (`--f-body`).
-
-**Logo** — `img/marca.webp` é a logo original (só a margem transparente foi cortada; WebP sem perda), usada no
-carregamento e na cortina. No header e no rodapé a marca é o vetor `#logo` no topo do `index.html`:
-mesma geometria, traço fixo de 1px, porque a imagem ficaria quase invisível a 40px.
-A logo gira 90° no hover e na cortina. `img/favicon.svg` é a versão para a aba do navegador.
-
-A animação da obra (`js/obra.js`) e a camada de luz `img/obra/torre-luz.webp` foram recoloridas
-para a areia; o desenho de fundo do manifesto (`planta-linhas.svg`) agora é em grafite.
-
-**Capas dos cards** — todas em **4:3, exportadas em 2000 × 1500 px** (webp, qualidade ~82).
-O mesmo arquivo aparece inteiro no card grande, no pequeno, no tablet, no celular e em "Outros projetos".
-No card grande do desktop a proporção é 1,32 em vez de 1,33: some cerca de 7px de cada lado, imperceptível.
-Deixe o canto inferior esquerdo mais calmo (é onde fica o nome sobre o escurecimento) e uma folga de ~5%
-nas bordas por causa do zoom do hover. O arquivo é o `cover` de cada projeto no `js/data.js`.
-
-**Plantas (página do projeto)** — seção logo abaixo da galeria, com abas à esquerda e a planta
-inteira à direita (nunca corta), com zoom: botões − 100% +, duplo clique, arrastar, pinça no
-celular e Ctrl + rodinha no computador. O botão no canto superior direito abre em tela cheia.
-O quadro se ajusta ao formato de cada planta (horizontal fica mais baixo). Quando a maioria
-das plantas do projeto é horizontal, as abas vão para cima e a planta ocupa a largura toda. Preencha o campo `plantas` de cada
-projeto no `js/data.js`: `{ nome, info, img }`. Lista vazia = a seção não aparece.
-Exporte as plantas com 2000 px no lado maior para o zoom ficar nítido, só com o desenho
-(sem título nem ficha técnica — essas informações já aparecem nas abas).
-
-**Planta da animação da obra** — agora em pé, igual à imagem real, com textos maiores. As portas são
-vãos abertos nas paredes (sem folha nem arco): para mudar um, ajuste os dois pedaços de parede em
-volta dele no bloco "1. ESTRUTURA" do `js/planta.js`.
-Os quatro números que ficavam embaixo da animação (Top 3, 26 anos...) foram removidos.
-
----
-
-Estático puro (HTML + CSS + JS), sem build e sem dependência além do Google Fonts.
-Conteúdo montado a partir do **Portfólio PREMIUM — 2025** (52 páginas, 6 projetos).
+## 1. Estrutura das pastas
 
 ```
-rs-concept/
-├── index.html          markup das 5 páginas
-├── css/style.css       estilo — variáveis no topo
-├── js/data.js          os 6 projetos + mídia do escritório (é aqui que você edita conteúdo)
-├── js/site.js          motor: roteador, animações, mosaico, diferenciais, galeria, tela cheia
-└── img/                logo + 65 renders em webp
-```
-
-## Rodar
-
-```bash
-cd rs-concept
-python3 -m http.server 8080     # http://localhost:8080
-```
-
-Abrir o `index.html` direto também funciona.
-
----
-
-## Vídeos
-
-Seis empreendimentos já estão com vídeo ligado: **Legacy, Manhattan Flats,
-Aventador Beach, Fifty Six, Yangzhou e Mallory Square Residence**. O vídeo aparece
-na coluna direita da seção "O projeto", sem áudio, em loop, com botão discreto de
-pausar/reproduzir.
-
-Para ligar o vídeo de mais um projeto, coloque o arquivo em `img/<slug>/video.mp4`,
-gere um poster e preencha no `js/data.js`:
-
-```js
-video:'img/sense-mare/video.mp4',
-videoPoster:'img/sense-mare/video-poster.webp'
-```
-
-Com `video:null`, a seção usa `gallery[0]` (ou a capa) e o layout fica idêntico.
-Se o arquivo de vídeo não carregar, o poster continua no lugar.
-
----
-
-## Comprimindo novas imagens e vídeos
-
-Os arquivos que você mandar em png/jpg precisam virar webp antes de entrar no site —
-um png de 10 MB vira um webp de 240 KB sem diferença visível.
-
-**Imagens** (ImageMagick ou o app que preferir). Regra usada aqui: no máximo
-1700px no lado maior (2200px para as capas), qualidade 82.
-
-```bash
-magick entrada.png -resize 1700x1700\> -quality 82 saida.webp
-```
-
-**Vídeos** (ffmpeg). Regra usada aqui: 1280px de largura, 30fps, **sem faixa de
-áudio** (o site nunca toca som) e CRF 28. Foi o que levou os 236 MB de vídeo para 42 MB.
-
-```bash
-ffmpeg -i entrada.mp4 -an -vf "scale='min(1280,iw)':-2,fps=30" \
-       -c:v libx264 -preset medium -crf 28 -pix_fmt yuv420p \
-       -movflags +faststart saida.mp4
-```
-
-Use sempre **mp4 (H.264)**: é o único formato que toca em todo iPhone, Android,
-Chrome, Safari e Edge. CRF menor = mais qualidade e arquivo maior (23 a 30 é a faixa útil).
-
-**Poster** — um quadro do próprio vídeo, escolhendo o segundo que ficar melhor:
-
-```bash
-ffmpeg -ss 14 -i video.mp4 -frames:v 1 -vf "scale='min(1700,iw)':-2" video-poster.webp
+Premium-RS/
+├── site/                  ← o site. É SÓ ESTA PASTA que a Cloudflare publica (diretório de saída = site)
+│   ├── index.html         todas as páginas (o site troca de página sem recarregar)
+│   ├── _worker.js         Function da Cloudflare: SEO de cada página, 404, sitemap, robots
+│   ├── css/               style.css (estilo geral) · hero.css · obra.css
+│   ├── js/
+│   │   ├── config.js      domínio, códigos de medição, dados da empresa, títulos para o Google
+│   │   ├── data.js        projetos, destaques da home, clientes, artistas do banner
+│   │   ├── cookies.js     aviso de cookies (LGPD) + Google Analytics / Pixel
+│   │   ├── site.js        motor do site (rotas, animações, galeria, clientes, marcações…)
+│   │   ├── hero.js        vídeo do topo da home
+│   │   ├── obra.js        animação do prédio subindo
+│   │   └── planta.js      planta em linhas da animação
+│   ├── img/               fotos, vídeos, logos (clientes/, og/, um pasta por projeto…)
+│   └── fonts/             Montserrat (e Artifakt Element, se você colocar)
+├── ferramentas/
+│   ├── testar-local.py    abre o site no computador (visual e navegação)
+│   └── historico-de-mudancas.md
+├── .gitignore             o que não vai para o GitHub (.wrangler, node_modules…)
+└── LEIA-ME.md             este arquivo (fica fora de site/ para não ser publicado)
 ```
 
 ---
 
-## Galerias
+## 2. Rodar no computador
 
-A galeria de cada projeto é a lista `gallery` no `data.js`, na ordem em que aparece.
-A capa entra automaticamente como primeira imagem — não repita ela na lista.
-Para acrescentar fotos novas: salve como `img/<slug>/11.webp`, `12.webp`… e
-adicione o caminho no array.
+Abrir o `index.html` com duplo clique **não funciona**: o site precisa de um servidor.
 
-## Outros campos editáveis
+### Jeito completo — igual à Cloudflare (recomendado)
+Roda o site junto com a Function: títulos de cada página, 404, sitemap e prévia de compartilhamento.
 
-**Projetos da home** — `HOME_FEATURED` em `data.js`: seis slugs em dois grupos de três.
-No 1º grupo o 1º slug é o projeto grande; no 2º grupo o 6º slug é o grande.
+1. Instale o **Node.js** (versão LTS, em nodejs.org) — só na primeira vez.
+2. Abra um terminal **na pasta que contém a `site/`** (não dentro dela):
+   - **Windows:** abra a pasta no Explorador, clique na barra de endereço, digite `cmd` e Enter.
+   - **Mac:** botão direito na pasta → Serviços → Novo Terminal na Pasta.
+   - **VS Code:** Terminal → Novo Terminal.
+3. Rode:
+   ```
+   npx wrangler pages dev site
+   ```
+   Na primeira vez ele pede para instalar o Wrangler: digite `y` e Enter.
+4. Abra o endereço que aparecer (normalmente `http://localhost:8788`). Para parar: `Ctrl + C`.
 
-**As três imagens de cada projeto são independentes** — em `data.js`:
+- Mudou CSS, HTML, fotos ou JS? Atualize a página no navegador.
+- Mudou o **`config.js`** ou o **`data.js`**? Pare (`Ctrl + C`) e rode de novo — a Function guarda os dois na memória.
+- O aviso `Unable to fetch the Request.cf object` pode ser ignorado.
+- A pasta **`.wrangler`** que aparece é temporária do teste: pode apagar quando quiser. Só não deixe que ela
+  apareça **dentro** de `site/` (acontece se rodar o comando de dentro dela). O `.gitignore` já a deixa fora do GitHub.
 
-| campo | onde aparece | se ficar `null` |
-|---|---|---|
-| `cover` | card no mosaico (home e Projetos) | — |
-| `heroImage` | topo da página do projeto (`.p-hero`) | repete a `cover` |
-| `mediaImage` | coluna direita da seção "O projeto" | usa `gallery[0]` |
-
-```js
-cover:'img/aventador-beach/capa.webp',   // o card continua com a piscina
-heroImage:'img/aventador-beach/03.webp', // o topo da página usa outro render
-heroPosition:'center 35%',
-mediaImage:'img/aventador-beach/05.webp',
+### Jeito rápido — só visual e navegação
+Com Python instalado, na mesma pasta:
 ```
-
-`mediaImage` é ignorada quando o projeto tem `video` — nesse caso vale o `videoPoster`.
-A galeria não muda: ela continua sendo `capa + gallery`, então se o render que você
-usar no topo não estiver na `gallery`, ele não entra na galeria (e vice-versa).
-
-**Enquadramento** — `coverPosition` vale para os cards e `heroPosition` para o topo
-da página (`'center'`, `'center 30%'`, `'center top'`…). Vira `object-position`.
-Útil para renders verticais que não podem ter a torre cortada. Com `heroPosition:null`
-o topo herda o `coverPosition`.
-
-**Texto autoral** — `texto:[]` em cada projeto. Enquanto vazio, a página mostra só
-a introdução, sem frase de placeholder. Para preencher:
-
-```js
-texto:[
-  'Primeiro parágrafo sobre o projeto.',
-  'Segundo parágrafo.'
-]
+python ferramentas/testar-local.py        (Windows: py ferramentas/testar-local.py)
 ```
-
-**Diferenciais** — direto no `index.html` (`#svcList`, dentro da `.svc`). São painéis lado a lado:
-o aberto mostra o render do prédio com título e texto, os fechados mostram o losango e o título na vertical.
-Passar o mouse, focar ou clicar abre; setas do teclado navegam. No celular vira uma pilha vertical.
-O render aparece INTEIRO, na proporção original, sem corte: a altura dos painéis é calculada
-(`diferenciais()` em `js/site.js`) para o prédio mais largo caber com o texto ao lado.
-Para trocar a imagem de um painel, mude o `src` do `<img>` dentro de `.dif-media` e ajuste o
-`style="--ar:0.8"` do `<article>` para a proporção da nova imagem (largura ÷ altura).
-O painel aberto ao carregar é o que tem a classe `on`.
-A proporção aberto/fechado é o `flex:6` de `.dif.on` no `css/style.css` (e `OPEN=6` no JS — mude os dois juntos).
-
-**Contato** — telefones, Instagram e link do WhatsApp estão no `index.html`
-(seção `.cta` da home, página Contato e menu). O botão "Conversar pelo WhatsApp"
-usa a mesma mensagem pré-configurada do botão flutuante.
-
-O campo `span` dos projetos não é mais usado (o mosaico monta os grupos sozinho);
-ficou no arquivo por compatibilidade.
+e abra `http://localhost:8000` (porta ocupada? `python ferramentas/testar-local.py 8080`).
+Não roda a Function: títulos por página, 404 e sitemap não funcionam nele.
 
 ---
 
-## O que veio do PDF
+## 3. Publicar (GitHub → Cloudflare Pages)
 
-**Logo** — extraí o vetor rasterizado do próprio portfólio, em 3162px com transparência,
-e gerei quatro versões: `logo-ouro.png`, `logo-branco.png` (lockup completo) e
-`marca-ouro.png`, `marca-branca.png` (só o cubo). Se você tiver o SVG original, ele é melhor ainda.
+**Endereço atual (temporário):** https://platinum-7w1.pages.dev/
 
-**6 projetos** — endereço, área e número de unidades saíram do portfólio sem
-nenhuma alteração. Categoria e cidade eu derivei: Residencial, Flats, Comercial
-(Lotus Business) e Hotelaria (Hilton Garden Inn).
+O projeto está ligado ao GitHub: **cada push na branch principal publica o site sozinho**. Pushes em outras branches
+geram um endereço de prévia (`<branch>.platinum-7w1.pages.dev`), marcado como "não indexar" para o Google.
 
-**65 renders** — extraídos das páginas e convertidos para webp. Capas em até 2200px,
-galeria em até 1700px.
+### Configuração de build na Cloudflare (uma vez só — obrigatório)
+Como o site fica dentro da pasta `site/`, a Cloudflare precisa saber disso:
+dash.cloudflare.com → **Workers e Pages** → projeto **platinum** → **Configurações** → **Compilações**
+(Builds) → **Configuração de compilação** → **Editar**:
 
-**Números e diferenciais** — os quatro números e os quatro diferenciais são
-literalmente os das páginas 3 e 4 do portfólio.
-
----
-
-## Pontos que precisam da sua atenção
-
-**Fifty Six e Skyline** estão com endereço, área e nº de unidades idênticos no PDF
-(3ª Avenida / Rua 286 / Rua 288 · 25.575,33 m² · 72 unidades). Vale confirmar.
-
-**Charming Residence** — com as imagens novas a pasta ficou com 8 fotos. As duas
-antigas (`01` e `02`) continuam em 715×901, a resolução original do PDF, e a capa
-aparece em posição grande na página Projetos. Se houver um render maior, substitua
-`capa.webp`.
-
-**Quatro imagens repetidas** ficaram de fora da galeria para não aparecer o mesmo
-render duas vezes seguidas (o arquivo continua na pasta, só não está no `data.js`):
-`aventador-beach/07` (igual à capa), `fifty-six/02` (igual à 01),
-`manhattan-flats/07` (igual à 02) e `urban-beach/05` (igual à 01).
-
-**Grand Mirage** — a capa mostra a coroa do edifício com o letreiro da Klein Dapalma.
-Se preferir outra imagem no card, troque a `capa.webp`.
-
-**Não há dados de equipe nem endereço do escritório** no portfólio. Está só
-"Itapema · Santa Catarina" no contato e no rodapé.
-
----
-
-## Ajustes rápidos
-
-**Velocidade dos números** — `js/site.js`, logo abaixo do comentário
-"VELOCIDADE DOS NÚMEROS":
-
-```js
-const COUNT_MS   = 1400;   // quanto tempo cada número leva para chegar no valor final
-const COUNT_STEP = 140;    // atraso entre um número e o próximo
-```
-
-Aumente `COUNT_MS` para uma contagem mais lenta, diminua para mais rápida.
-Se mexer no `COUNT_STEP`, mexa junto no `--d` de `.stat:nth-child(1..4)` no CSS —
-ele controla a linha dourada e a entrada do texto, e os dois precisam usar o mesmo ritmo
-(hoje 0 / 140 / 280 / 420 ms).
-
-**Busca dos projetos** — `js/site.js`, função `pintaProjetos()`. Ela procura em
-nome, categoria, cidade e endereço, ignorando acento e caixa ("le reve" acha
-"Le Rêve Flats"), e cada palavra digitada precisa bater — "hotelaria itapema"
-devolve só o Hilton. Para incluir outro campo na busca, some ele à linha do
-`norm(p.title+' '+p.cat+' '+...)`. A busca e os botões de tipo funcionam juntos.
-
-**Velocidade da transição de página** — `js/site.js`, `T_FECHA` (1050ms) e `T_LIMPA` (2250ms).
-As durações das faixas e da marca estão no CSS, em `#curtain`.
-
-Cuidado com o `T_LIMPA`: ele precisa ser maior que
-`T_FECHA + 90 + atraso do último painel (280ms) + duração da saída (720ms)` = 2140ms.
-Se ficar menor, a classe `.out` sai antes do 5º painel terminar, o `transform-origin`
-pula de `top` para `bottom` no meio do movimento e fica uma faixa sobrando na tela.
-Se você acelerar as faixas no CSS, recalcule esse número.
-
-**Cores, fundo da galeria e larguras da fonte** — bloco `:root` do `css/style.css`
-(`--paper` é o fundo claro da galeria, `--paper-2` o tom neutro atrás dos renders).
-
-**Duração da revelação diagonal** — `.diag` no CSS (1.1s); da troca de imagem dos
-diferenciais — `.svc-img figure` (0.75s); da galeria — `.gal-track figure` (0.55s).
-
-## Animações que se repetem
-
-As revelações (títulos, imagens, linha e contagem dos números) acontecem toda vez que
-o elemento entra na tela — se você rolar para baixo e voltar, elas rodam de novo.
-Quem controla isso é o `IntersectionObserver` no `js/site.js`: o elemento ganha a classe
-`rv` ao encostar na viewport e perde quando sai completamente dela.
-
-O `rootMargin:'0px 0px -12% 0px'` é o quanto o elemento precisa subir na tela antes
-de animar. Deixe mais negativo (`-20%`) para a animação começar mais tarde.
-
-Para voltar ao comportamento de animar só uma vez, acrescente `io.unobserve(e.target)`
-logo depois do `classList.add('rv')` e apague o `else` que remove a classe.
-
-## Movimento reduzido
-
-Com `prefers-reduced-motion` ativo tudo aparece imediatamente: sem contadores,
-sem revelação de imagem, sem cortina de transição.
-
-## Formulário
-
-O site não tem formulário. O contato é por WhatsApp, telefone e Instagram.
-
----
-
-## Correção — preenchimento dourado dos botões
-
-O `.btn::before` (a faixa dourada que sobe no hover) estava em `z-index:-1`. Um
-pseudo-elemento com z-index negativo é pintado **atrás do fundo da seção**, e não
-atrás só do botão. Em qualquer bloco com `background` próprio — `.manifesto`
-("Conhecer o escritório"), `.cta` e o `.btn-gold` — o dourado ficava escondido e,
-como o hover troca a cor do texto para `--navy-900`, sobrava navy sobre navy.
-
-Nos botões que estão em seção sem fundo (o "Ver os 6 projetos", por exemplo) o
-efeito funcionava porque ali o dourado caía sobre o fundo do `body`.
-
-Agora o `::before` está em `z-index:0` e o `span`/`i` em `z-index:1` — o mesmo
-resultado visual, igual em todo lugar.
----
-
-## Hero PLATINUM
-
-Arquivos: `css/hero.css` e `js/hero.js`. As cenas ficam no topo de `js/hero.js` (`SCENES`).
-A palavra PLATINUM já vem dentro dos próprios arquivos, então não há mais texto sobreposto nem recortes.
-
-| cena | arquivo | duração |
-|---|---|---|
-| 1 | `img/hero/cena-1.mp4` (+ `cena-1.webp`, 1º quadro) | 8 s |
-| 2 | `img/hero/cena-2.webp` (imagem, por enquanto) | 8 s |
-| 3 | `img/hero.mp4` — interno, sem texto | 10 s |
-
-Cada cena **sempre começa do começo** quando chega a vez dela: o vídeo da próxima cena fica
-carregado e parado no 1º quadro até a troca. O cruzamento (`FADE`, 1,6 s) começa antes do fim,
-para o vídeo terminar exatamente quando sai de cena. `dur` = duração do vídeo.
-
-**Cena 2 virando vídeo** — troque `image:'img/hero/cena-2.webp'` por
-`video:'img/hero/cena-2.mp4', poster:'img/hero/cena-2.webp'` e ajuste `dur`.
-
-**Celular** — preencha `tall` em cada cena com os arquivos 9:16. Enquanto for `null`, o celular usa
-o arquivo do desktop (e a palavra fica cortada nas laterais, porque o vídeo é 16:9).
-
-**Vídeo 1** — reexportado sem a trilha de áudio (o hero é mudo) e com `faststart`, para começar a
-tocar antes de baixar inteiro: 10,4 MB → 5,6 MB, visualmente igual (SSIM 0,988).
-
----
-
-## Obra — prédio em 44 pavimentos + planta em linhas
-
-Arquivos: `js/obra.js`, `js/planta.js`, `css/obra.css` e a pasta `img/obra/`.
-
-| arquivo | o que é |
+| campo | valor |
 |---|---|
-| `img/obra/torre-traco.webp` | a elevação enviada, ampliada 4x, sem mudar nenhuma linha (só o traço fica claro para o fundo escuro) |
-| `img/obra/torre-luz.webp` | camada dourada das janelas acendendo, recortada dos vãos do próprio desenho |
-| `img/obra/planta-real.webp` | a planta original (WebP, visualmente idêntica à enviada) — é o que o botão "Imagem real" mostra |
+| Predefinição de framework | **Nenhuma** |
+| Comando de compilação | *(vazio)* |
+| Diretório de saída de compilação | **`site`** |
+| Diretório raiz (avançado) | *(vazio — raiz do repositório)* |
 
-A animação só revela o desenho original de baixo para cima; nada no prédio é redesenhado.
-Não há "sombra" do projeto ao fundo: o prédio aparece só conforme é construído.
-Os 44 pavimentos dividem igualmente a altura entre o topo do embasamento e a laje do coroamento.
+Salve **antes** de dar o push com a estrutura nova. Sem isso, a Cloudflare procura o `index.html` na raiz do
+repositório e o site sai do ar. Com isso, só a pasta `site/` é publicada (o `LEIA-ME.md` e as `ferramentas/` ficam
+só no GitHub).
 
-Ajustes no topo de `js/obra.js`: `DUR` (duração), `FLOORS` (44) e `FLOOR` (andar em que a câmera entra, hoje 32).
-As linhas de nível que ficavam à direita da elevação foram retiradas do `torre-traco.webp`; o prédio em si não mudou.
-Os tempos das etapas estão em `PH`, e os da planta em `PLAN_T`.
+### No dia a dia
+1. Edite os arquivos, teste no computador (item 2) se quiser.
+2. `git add`, `git commit`, `git push`.
+3. Em 1 a 2 minutos a nova versão está no ar (acompanhe em **Implantações**, no projeto da Cloudflare).
+   Se algo der errado, em **Implantações** dá para voltar para uma versão anterior com um clique (**Reverter**).
 
-A planta em linhas (`js/planta.js`) usa o mesmo sistema de coordenadas da imagem real (550 x 807 px).
-Ela aparece girada 90° no sentido horário para ocupar mais largura (`ROT = 90` no topo do arquivo;
-`-90` gira para o outro lado e `0` deixa igual à foto). Os nomes dos ambientes continuam na horizontal.
-A imagem real não gira.
+- Não há nada para configurar além do diretório de saída: a Cloudflare reconhece o `_worker.js` sozinha.
+- **Não crie `404.html`** na raiz de `site/` (a Function já cuida das páginas que não existem).
+- O `.gitignore` já deixa de fora a pasta `.wrangler` do teste local e arquivos do sistema.
 
-**Zoom** — botões − / + (até 500%), clique no percentual para voltar a 100%, duplo clique para ampliar
-no ponto, arrastar para mover e pinça no celular. O zoom volta a 100% ao trocar entre traço e imagem real.
+### O que a Function (`_worker.js`) faz sozinha
+- Endereços limpos: `/estudio`, `/projetos`, `/contato`, `/privacidade`, `/projeto/legacy`…
+- Coloca no HTML de cada página o título, a descrição, a imagem de compartilhamento (WhatsApp, Instagram,
+  Facebook, LinkedIn) e os dados estruturados para o Google, lendo o `config.js` e o `data.js`.
+- Responde **404 de verdade** para página ou arquivo que não existe (e o site mostra "Página não encontrada").
+- Monta o **`/sitemap.xml`** (com todas as fotos dos projetos) e o **`/robots.txt`**.
+- Redireciona `/projetos/` → `/projetos` e `/index.html` → `/`.
+- Cabeçalhos de segurança; cache de fotos (7 dias) e fontes (1 ano).
+- Links antigos com `/#/` (ex.: `/#/projetos`) são convertidos sozinhos para o formato novo.
 
-Para o traço ficar preto no branco em vez de claro,
-troque as cores em `.pl-walls`, `.pl-fix` etc. no fim do `css/obra.css`.
-
----
-
-## Manifesto da home — 3 imagens + texto
-
-Arquivos: bloco `.manifesto` no `index.html`, seção "manifesto" no `css/style.css`,
-e a pasta `img/manifesto/`.
-
-**Trocar as fotos** — substitua os arquivos mantendo o nome (ou mude o `src` no HTML):
-
-| arquivo | posição | proporção do quadro | sugestão de exportação |
-|---|---|---|---|
-| `img/manifesto/lazer-1.webp` | atrás, à esquerda | 31:22 (≈ 1,41, horizontal) | 1240 × 880 |
-| `img/manifesto/lazer-2.webp` | atrás, à direita | 32:35 (≈ 0,91) | 1280 × 1400 |
-| `img/manifesto/predio.webp` | na frente, o maior | 38:42 (≈ 0,90, vertical) | 1520 × 1680 |
-
-Com a foto já nessa proporção ela aparece inteira, sem corte. Se vier em outra proporção,
-o quadro corta as sobras; ajuste o enquadramento com `style="--pos:center 25%"` no `<figure>`
-(0% = mostra o topo, 100% = mostra a base). Para mudar o formato de um quadro, mude o `--ar`
-de `.m-img-1/2/3` no CSS.
-
-**Desenho ao fundo** — `img/manifesto/planta-linhas.svg`, no canto superior direito: os dois
-pavimentos da planta enviada, redesenhados em linhas, sem nomes de ambientes nem metragens.
-Intensidade: `--m-shape-op` em `.manifesto` (hoje `.11`).
+**Custo:** zero. A Function só roda ao abrir uma página (fotos e arquivos não contam), muito abaixo do limite gratuito.
 
 ---
 
-## Estúdio — abertura e chamada com imagem fixa
+## 4. O que tem no site
 
-Markup no `index.html` (`data-page="estudio"`), estilo no bloco "ESTÚDIO" do `css/style.css`
-e `estudioHero()` no `js/site.js`.
+### Páginas
+| endereço | página |
+|---|---|
+| `/` | Início |
+| `/estudio` | Estúdio |
+| `/projetos` | Todos os projetos, com busca e filtro por tipo |
+| `/projeto/<slug>` | Página de cada projeto |
+| `/contato` | Contato |
+| `/privacidade` | Política de Privacidade e de Cookies |
+| qualquer outro | Página não encontrada (404) |
 
-Ordem da página: abertura em tela cheia (`.st-hero`) → texto (`.st-intro`) → números →
-"O que guia cada torre" (`.st-list`) → faixa das cidades → chamada final (`.st-cta`).
+### Início (de cima para baixo)
+- **Vídeo de abertura** em loop, mudo, com o texto aparecendo por alguns segundos.
+- **Manifesto** — 3 imagens sobrepostas + "Há 26 anos transformando criatividade em inovação", com a planta em linhas ao fundo.
+- **Diferenciais** — painéis lado a lado que abrem no hover/clique (no celular viram pilha).
+- **Projetos em destaque** — mosaico com 6 projetos.
+- **Obra** — animação do prédio subindo em 44 pavimentos + planta em linhas com zoom ("Imagem real" mostra a planta original).
+- **Clientes** — duas faixas de logos em loop, em sentidos opostos (58 clientes), em bloco escuro.
+- **Banner dos artistas** — "Arquitetura e música nos inspiram", com marcações no estilo do Instagram.
+- **Chamada** — "Tem um terreno e uma ideia?", em fundo claro, com WhatsApp, telefone e Instagram.
+- **Rodapé** escuro, com links para Política de Privacidade e (se houver cookies) Preferências de cookies.
 
-**Imagem fixa** — `.st-hero` e `.st-cta` usam a classe `.st-par`: a foto fica parada e a página
-desliza por cima dela. É feito com um `<img>` em `position:fixed` recortado pelo `clip-path` da
-seção (e não com `background-attachment:fixed`), por isso funciona igual no iPhone.
+### Página do projeto
+- Topo com foto grande, ficha (categoria, endereço, área, unidades) e texto de introdução.
+- Vídeo (se o projeto tiver) ou imagem na seção "O projeto".
+- **Galeria em mosaico com parallax** — fotos inteiras, sem corte, base sempre reta; 4/3/2 colunas conforme a tela.
+  Clique abre em tela cheia, com setas e swipe.
+- **Plantas** — abas com cada tipologia, zoom (botões, duplo clique, arrastar, pinça, Ctrl + rodinha) e tela cheia.
+- "Outros projetos" no fim.
 
-| seção | arquivo | enquadramento |
-|---|---|---|
-| abertura | `img/yangzhou/03.webp` | `style="--pos:center 55%"` no `<img>` |
-| chamada final | `img/legacy/capa.webp` | `style="--pos:center 40%"` no `<img>` |
+### Em todo o site
+- **Dropdown "Projetos"** no menu (computador): lista todos os projetos com a capa de quem está sob o mouse.
+- **Transição entre páginas** com cortina e logo girando.
+- **Cursor personalizado** (bolinha + anel; mostra "VER" sobre fotos e cards) — só em computador.
+- **Botão flutuante do WhatsApp.**
+- **Movimento reduzido:** se o aparelho pedir, as animações ficam paradas.
 
-Para trocar, mude o `src` do `<img class="st-par-img">`. Use fotos horizontais com pelo menos
-1920 px de largura (a imagem cobre a tela inteira).
+### Identidade visual
+- Cores (bloco `:root` do `css/style.css`): `--preto` #000, `--branco` #FFF, `--nevoa` #E8E8E8 (fundo claro do site),
+  `--platina` #8A8D8F, `--aco` #A8A8A8, `--chumbo` #1E2022 (blocos escuros).
+- Fontes: **Montserrat** (títulos, menus, rótulos) e **Artifakt Element** (texto). A Artifakt é da Autodesk: para o site
+  não depender de servidor externo, coloque `ArtifaktElement-Regular.woff2` e `ArtifaktElement-Bold.woff2` em `site/fonts/`.
+- Logo RS Platinum em vetor no topo do `index.html` (`#lk-mark`, `#wordmark`, `#wm-platinum`).
 
-**Abertura** — conforme a página sobe, a foto escurece e o título some aos poucos (`--k`, de 0 a 1).
-Com movimento reduzido ativo isso não acontece.
+---
+
+## 5. Onde editar cada coisa
+
+| o quê | onde |
+|---|---|
+| Projetos (nome, cidade, área, fotos, plantas, vídeo, texto) | `PROJECTS` no `js/data.js` |
+| Projetos do destaque da home | `HOME_FEATURED` no `js/data.js` (6 slugs, dois grupos de três) |
+| Clientes (logos das faixas) | `CLIENTES` no `js/data.js` + SVG em `img/clientes/` |
+| Artistas do banner (nome, @, posição do rosto) | `ARTISTAS` no `js/data.js` |
+| Domínio, códigos de medição, e-mail, CNPJ | `SITE` no `js/config.js` |
+| Título e descrição de cada página no Google | `SEO_PAGINAS` no `js/config.js` (projetos usam o `intro` do `data.js`) |
+| Telefone, WhatsApp, Instagram visíveis no site | `index.html` (chamada da home, página Contato, menu, rodapé, botão flutuante) |
+| Diferenciais | `#svcList` no `index.html` |
+| Cores | `:root` no `css/style.css` |
+
+### Campos de cada projeto (`js/data.js`)
+| campo | para que serve |
+|---|---|
+| `slug` | parte do endereço (`/projeto/legacy`) e nome da pasta em `img/` |
+| `title`, `cat`, `cidade`, `endereco`, `area`, `unidades` | ficha do projeto |
+| `intro` | texto de introdução **e descrição no Google** |
+| `texto` | parágrafos extras (lista vazia = não aparece) |
+| `cover` | capa dos cards (4:3, 2000 × 1500) |
+| `coverPosition` | enquadramento da capa (`'center 40%'`…) |
+| `heroImage` / `heroPosition` | foto do topo da página (vazio = usa a capa) |
+| `mediaImage` | imagem da seção "O projeto" (vazio = 1ª da galeria) |
+| `gallery` | fotos da galeria, em ordem (a capa entra sozinha como 1ª — não repita) |
+| `video` / `videoPoster` | vídeo da seção "O projeto" (`null` = sem vídeo) |
+| `plantas` | `{ nome, info, img }` de cada planta (lista vazia = a seção não aparece) |
+
+**Projeto novo:** crie a pasta `img/<slug>/`, acrescente o bloco no `PROJECTS` e, para a prévia de WhatsApp,
+uma imagem `img/og/<slug>.jpg` em 1200 × 630 (sem ela, a prévia usa a capa). Ele entra sozinho na página Projetos,
+no dropdown, no sitemap e no Google. **Escreva os textos sem aspas duplas dentro** (a Function lê esse arquivo).
+
+### Clientes (`CLIENTES`)
+- `nome`, `logo` — e, nos ícones de uma cor só, `mono: true` e `ar` (proporção largura/altura do SVG).
+- `cor` — cor da marca no hover (sem cor = fica claro). No celular os ícones já aparecem coloridos.
+- `wm: true` — a logo já é o nome escrito: entra inteira, sem o nome ao lado. `esc` ajusta o tamanho (0.8 menor, 1.3 maior).
+- A ordem é a da lista; cada faixa leva metade. A faixa só carrega quando a seção chega perto da tela.
+
+### Artistas do banner (`ARTISTAS`)
+- `nome`, `curto` (usado no celular), `grupo` (dupla), `ig` (Instagram; sem link = marcação sem @), `x`/`y` (centro do rosto, em %).
+- Computador: passar o mouse mostra a marcação; o botão **Quem é quem** mostra todas. Celular: tocar no banner mostra/esconde.
+- Se trocar o banner, ajuste `x`/`y` de cada um.
+
+---
+
+## 6. Imagens e vídeos
+
+- **Formato:** fotos sempre em **webp**; vídeos em **mp4 (H.264)**, sem áudio (o site nunca toca som).
+- **Tamanhos:** capas 2000 × 1500 (4:3); galeria até 1700 px no lado maior; plantas 2000 px no lado maior,
+  só o desenho; prévias de compartilhamento 1200 × 630 em JPG (`img/og/`).
+- **Converter foto** (ImageMagick): `magick entrada.png -resize 1700x1700\> -quality 82 saida.webp`
+- **Converter vídeo** (ffmpeg):
+  ```
+  ffmpeg -i entrada.mp4 -an -vf "scale='min(1280,iw)':-2,fps=30" -c:v libx264 -preset medium -crf 28 -pix_fmt yuv420p -movflags +faststart saida.mp4
+  ```
+- **Poster do vídeo:** `ffmpeg -ss 14 -i video.mp4 -frames:v 1 -vf "scale='min(1700,iw)':-2" video-poster.webp`
+- Trocar uma foto mantendo o nome: quem já visitou pode levar até 7 dias para ver a nova (cache).
+
+---
+
+## 7. Ajustes finos
+
+| ajuste | onde |
+|---|---|
+| Tempo do texto sobre o vídeo do topo | `TEXTO_SEG` em `js/hero.js` |
+| Movimento da galeria em mosaico | `GM_AMP` (deslocamento) e `GM_SPEED` (velocidade de cada coluna) em `js/site.js`; espaço entre fotos: `--gm-gap` em `.gm` no CSS |
+| Velocidade das faixas de clientes | `PAT_SEG` (segundos por cliente) em `clientes()` no `js/site.js` |
+| Velocidade da transição de página | `T_FECHA` e `T_LIMPA` em `js/site.js` (`T_LIMPA` precisa ser ≥ `T_FECHA` + 1090 ms) |
+| Velocidade dos números | `COUNT_MS` e `COUNT_STEP` em `js/site.js` |
+| Animação da obra | `DUR`, `FLOORS`, `FLOOR`, `PH` em `js/obra.js`; `PLAN_T` e `ROT` em `js/planta.js` |
+| Proporção dos painéis de diferenciais | `flex:6` de `.dif.on` no CSS e `OPEN=6` no JS (mudar os dois) |
+| Quando as revelações começam ao rolar | `rootMargin` do `IntersectionObserver` em `js/site.js` |
+
+---
+
+## 8. Tráfego, Google e cookies — como configurar
+
+Nada disso tem custo. Tudo é configurado no **`site/js/config.js`** + painéis gratuitos; depois é só dar push.
+
+### 8.1 Ver as visitas — Cloudflare Web Analytics (recomendado, sem cookies)
+1. No projeto da Cloudflare Pages → **Métricas** → **Web Analytics** → ativar.
+2. Pronto: visitas por página, origem (Google, Instagram, link direto), país e aparelho.
+
+Não usa cookies, então **não precisa de aviso de cookies**. Se a Cloudflare pedir para colar um script, copie só o
+**token** dele para `cloudflareAnalytics` no `config.js`.
+
+> O painel "Visão geral" do domínio conta *solicitações* (cada foto, fonte, script e robôs) — por isso os números são
+> bem maiores que o de visitas reais. Para saber quantas pessoas vieram, use o Web Analytics.
+
+### 8.2 Aparecer no Google — Google Search Console
+Mostra por quais pesquisas as pessoas chegam, em que posição o site aparece e se há páginas com erro.
+
+**Enquanto estiver no endereço temporário (`platinum-7w1.pages.dev`):**
+1. search.google.com/search-console → **Adicionar propriedade** → **Prefixo do URL** → `https://platinum-7w1.pages.dev/`.
+2. Método **Tag HTML**: copie só o código de dentro de `content="..."` para `googleVerificacao` no `config.js`, dê push e, quando estiver no ar, clique em **Verificar**.
+3. **Sitemaps** → envie `sitemap.xml`.
+4. Opcional: **Inspeção de URL** → endereço da home → **Solicitar indexação**.
+
+**Quando tiver o domínio próprio:**
+1. Cloudflare Pages → projeto → **Domínios personalizados** → adicione o domínio (com o DNS na Cloudflare, é automático).
+2. No `config.js`, troque o **`url`** pelo domínio (escolha com ou sem www e use sempre o mesmo) e publique.
+3. Em **Regras → Regras de redirecionamento**, redirecione a outra versão (sem www → com www, ou o contrário).
+4. No Search Console, adicione uma propriedade **Domínio** (verificação automática pela Cloudflare) e envie o `sitemap.xml` de novo.
+
+O endereço temporário continua funcionando, mas passa a apontar o Google para o domínio novo.
+
+### 8.3 Google Analytics 4 (opcional, mais detalhado)
+1. analytics.google.com → criar propriedade → **Fluxo de dados da Web** com o endereço do site.
+2. Copie o **ID da métrica** (`G-XXXXXXXXXX`) para `ga4` no `config.js` e publique.
+3. Em **Administrador → Eventos**, marque **`clique_whatsapp`** como evento-chave (é a conversão do site).
+4. **Administrador → Retenção de dados** → 14 meses (é o que diz a Política de Privacidade).
+
+Eventos enviados: `page_view` (cada página), `clique_whatsapp`, `clique_telefone`, `clique_email`, `clique_instagram`,
+`clique_artista` — cada um com `local` (de onde veio o clique).
+
+**Ao preencher o `ga4`, o aviso de cookies liga sozinho** (o Analytics usa cookies e a LGPD exige pedir antes).
+
+### 8.4 Pixel da Meta (só se for anunciar no Instagram/Facebook)
+Copie o número do Pixel para `metaPixel` no `config.js`. Ele só carrega depois do "sim" para Marketing no aviso de cookies.
+Sem anúncios pagos, deixe vazio.
+
+### 8.5 Cookies e LGPD — como funciona
+- Com `ga4` e `metaPixel` vazios: o site **não usa cookies** e **não mostra aviso**.
+- Com algum deles preenchido: na primeira visita aparece o aviso (**Aceitar**, **Recusar**, **Personalizar** — Análise e
+  Marketing separados). Antes da resposta, o Google fica no Modo de Consentimento v2 com tudo negado. A escolha vale
+  12 meses; **Preferências de cookies** (rodapé e Política) reabre o aviso.
+- A **Política de Privacidade e de Cookies** (`/privacidade`) se ajusta sozinha ao que está ligado no `config.js` e puxa
+  de lá razão social, CNPJ, e-mail do encarregado (`emailPrivacidade`, ou o `email`), nome do encarregado e foro.
+  **Peça para um advogado revisar antes de publicar.** Se o site ganhar formulário, newsletter ou outra ferramenta, ela precisa ser atualizada.
+
+### 8.6 O que já está pronto para o Google (SEO)
+- Título, descrição e endereço canônico próprios em cada página e projeto.
+- Prévia de link com imagem 1200 × 630 por página (`img/og/`).
+- Dados estruturados (schema.org): a empresa (serviço profissional, área atendida, Instagram), o site, a trilha de
+  navegação e cada projeto, com fotos e cidade.
+- `sitemap.xml` com todas as páginas e fotos (ajuda no Google Imagens) e `robots.txt`.
+- Página não encontrada com 404 de verdade e "não indexar".
+
+---
+
+## 9. Pendências antes de publicar de vez
+
+- [ ] **Telefone, WhatsApp e Instagram** no `index.html` ainda são de exemplo: `(xx) xxxxx-xxxx`, `wa.me/xxxxxxxxxxxxx`, `@premium`.
+- [ ] **`config.js`:** `telefone`, `email`, `razaoSocial`, `cnpj`, `instagram` (aparecem no Google e na Política).
+- [ ] **Política de Privacidade** revisada por advogado.
+- [ ] **Banner dos artistas:** nome e @ da 3ª pessoa da esquerda (linha comentada no `ARTISTAS`) e o @ do Dhonatan Coelho.
+- [ ] **Fontes Artifakt Element** em `site/fonts/` (opcional, para não depender do servidor da Autodesk).
+- [ ] **Search Console** verificado e `sitemap.xml` enviado; **Web Analytics** ativado.
+- [ ] Quando houver domínio próprio: trocar o `url` no `config.js` e seguir o item 8.2.

@@ -56,7 +56,7 @@ const yF  = k => Y_PODIUM - k*FH;                  // cota do piso do pavimento 
 const traco=new Image(), luz=new Image();
 let ready=0; const onload=()=>{ if(++ready===2) draw(T); };
 traco.onload=onload; luz.onload=onload;
-traco.src='img/obra/torre-traco.webp'; luz.src='img/obra/torre-luz.webp';
+traco.src='/img/obra/torre-traco.webp'; luz.src='/img/obra/torre-luz.webp';
 
 /* ---------- DOM ---------- */
 const $ = s => root.querySelector(s);

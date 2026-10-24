@@ -3,21 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PLATINUM | Arquitetura de Alto Padrão</title>
-<meta name="description" content="PLATINUM">
-<meta name="theme-color" content="#FFFFFF">
-<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="img/favicon-64.png" type="image/png" sizes="64x64">
-<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<!-- SEO:INICIO — preenchido pela Function da Cloudflare (_worker.js) a cada página, a partir do js/config.js; não edite à mão -->
+<title>Rafael Schmitt Platinum | Arquitetura de alto padrão em SC</title>
+<meta name="description" content="Escritório de arquitetura de alto padrão com 26 anos no litoral catarinense. Edifícios residenciais e flats em Itapema, Porto Belo e região.">
+<!-- SEO:FIM -->
+<meta name="theme-color" content="#1E2022">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/img/favicon-64.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 
 <!-- fontes (Manual RS Platinum): Montserrat = títulos e destaques · Artifakt Element = corpo e cotas.
      O logotipo (Nexa Heavy) já vem em curvas no SVG, não precisa de fonte. -->
-<link rel="preload" href="fonts/Montserrat-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Montserrat-Variable.woff2" as="font" type="font/woff2" crossorigin>
 
 
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/obra.css">
-<link rel="stylesheet" href="css/hero.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/obra.css">
+<link rel="stylesheet" href="/css/hero.css">
+
+<!-- configuração (domínio, Google Analytics, Pixel) e aviso de cookies: precisam vir antes de tudo -->
+<script src="/js/config.js"></script>
+<script src="/js/cookies.js"></script>
 </head>
 <body>
 
@@ -42,7 +49,7 @@
 
 <div id="pre">
   <div class="pre-in">
-    <div class="pre-mark"><img src="img/marca.webp" alt="Rafael Schmitt Platinum" width="1229" height="1566"></div>
+    <div class="pre-mark"><img src="/img/marca.webp" alt="Rafael Schmitt Platinum" width="1229" height="1566"></div>
     <svg class="pre-name" viewBox="0 0 2046 506" role="img" aria-label="Rafael Schmitt Platinum"><use href="#wm-platinum"/></svg>
     <div class="pre-bar"><i></i></div>
   </div>
@@ -51,35 +58,42 @@
 <div id="curtain">
   <!-- uma camada só, em cinza chumbo, com a logo clara por cima (antes eram 5 faixas em dois tons) -->
   <div class="panels"><i></i></div>
-  <div class="cur-mark"><img src="img/marca-clara.png" alt="" width="1229" height="1566"></div>
+  <div class="cur-mark"><img src="/img/marca-clara.png" alt="" width="1229" height="1566"></div>
 </div>
 
 <header id="hd">
-  <a href="#/" class="brand lockup" data-link aria-label="Rafael Schmitt Platinum — início">
+  <a href="/" class="brand lockup" data-link aria-label="Rafael Schmitt Platinum — início">
     <svg class="mk brand-mark" viewBox="0 0 1229 1566" aria-hidden="true"><use href="#lk-mark"/></svg>
     <svg class="brand-name" viewBox="0 0 2046 506" role="img" aria-label="Rafael Schmitt Platinum"><use href="#wordmark"/></svg>
   </a>
   <nav class="nav">
-    <a href="#/" data-link data-route="home">Início</a>
-    <a href="#/estudio" data-link data-route="estudio">Estúdio</a>
-    <a href="#/projetos" data-link data-route="projetos">Projetos</a>
-    <a href="#/contato" data-link data-route="contato">Contato</a>
+    <a href="/" data-link data-route="home">Início</a>
+    <a href="/estudio" data-link data-route="estudio">Estúdio</a>
+    <a href="/projetos" data-link data-route="projetos" class="dd-trig" id="ddTrig" aria-haspopup="true" aria-expanded="false" aria-controls="ddProj">Projetos<svg class="dd-chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a>
+    <a href="/contato" data-link data-route="contato">Contato</a>
   </nav>
+  <!-- dropdown de "Projetos": montado pelo js/site.js a partir da lista PROJECTS do js/data.js -->
+  <div class="dd" id="ddProj" aria-label="Projetos">
+    <div class="dd-in">
+      <ul class="dd-list" id="ddList"></ul>
+      <figure class="dd-prev" id="ddPrev" aria-hidden="true"></figure>
+    </div>
+  </div>
   <button class="burger" id="bg" aria-label="Abrir menu"><i></i><i></i></button>
 </header>
 
 <div id="menu">
   <div class="menu-l">
-    <a href="#/" data-link>Início</a>
-    <a href="#/estudio" data-link>Estúdio</a>
-    <a href="#/projetos" data-link>Projetos</a>
-    <a href="#/contato" data-link>Contato</a>
+    <a href="/" data-link>Início</a>
+    <a href="/estudio" data-link>Estúdio</a>
+    <a href="/projetos" data-link>Projetos</a>
+    <a href="/contato" data-link>Contato</a>
   </div>
   <div class="menu-r" id="menuImgs">
-    <img src="img/sense-mare/capa.webp" alt="" class="on">
-    <img src="img/legacy/capa.webp" alt="">
-    <img src="img/yangzhou/03.webp" alt="">
-    <img src="img/manhattan-flats/01.webp" alt="">
+    <img src="/img/sense-mare/capa.webp" alt="" class="on">
+    <img src="/img/legacy/capa.webp" alt="">
+    <img src="/img/yangzhou/03.webp" alt="">
+    <img src="/img/manhattan-flats/01.webp" alt="">
     <div class="menu-meta">
       <a href="https://instagram.com/xxxxxx" target="_blank" rel="noopener">@premium</a>
       <a href="tel:+xxxxxxxxxxxxx">(xx) xxxxx-xxxx</a>
@@ -121,21 +135,21 @@
        Enquadramento de cada foto: style="--pos:center 30%" no <figure>. -->
   <section class="manifesto">
     <div class="m-shapes" aria-hidden="true">
-      <img class="m-shape-planta" src="img/manifesto/planta-linhas.svg" alt="" width="935" height="1215" loading="lazy" decoding="async">
+      <img class="m-shape-planta" src="/img/manifesto/planta-linhas.svg" alt="" width="935" height="1215" loading="lazy" decoding="async">
     </div>
 
     <div class="wrap">
       <div class="m-gallery">
-        <figure class="m-img m-img-1 clip"><img src="img/manifesto/lazer-1.webp" alt="Área de lazer de empreendimento PLATINUM" loading="lazy" decoding="async"></figure>
-        <figure class="m-img m-img-2 clip"><img src="img/manifesto/lazer-2.webp" alt="Área externa de empreendimento PLATINUM" loading="lazy" decoding="async"></figure>
-        <figure class="m-img m-img-3 clip" style="--pos:center 25%"><img src="img/manifesto/predio.webp" alt="Edifício projetado pela PLATINUM" loading="lazy" decoding="async"></figure>
+        <figure class="m-img m-img-1 clip"><img src="/img/manifesto/lazer-1.webp" alt="Área de lazer de empreendimento PLATINUM" loading="lazy" decoding="async"></figure>
+        <figure class="m-img m-img-2 clip"><img src="/img/manifesto/lazer-2.webp" alt="Área externa de empreendimento PLATINUM" loading="lazy" decoding="async"></figure>
+        <figure class="m-img m-img-3 clip" style="--pos:center 25%"><img src="/img/manifesto/predio.webp" alt="Edifício projetado pela PLATINUM" loading="lazy" decoding="async"></figure>
       </div>
 
       <div class="m-text">
         <h2 class="m-title up">Há 26 anos transformando criatividade em inovação</h2>
         <p class="m-lead up">Consolidados como referência de excelência no universo da arquitetura vertical, vamos além das expectativas de cada cliente, traduzindo sonhos em obras únicas. Cada projeto é concebido como uma sinfonia de inovação e qualidade, onde cada traço representa o compromisso com a excelência.</p>
 
-        <a href="#/estudio" data-link class="btn up"><span>Conhecer o escritório</span><i></i></a>
+        <a href="/estudio" data-link class="btn up"><span>Conhecer o escritório</span><i></i></a>
       </div>
     </div>
   </section>
@@ -155,7 +169,7 @@
             <div class="obra-plan">
               <div class="pl-zoom">
                 <div class="pl-box pl-lines"></div>
-                <div class="pl-box pl-realbox"><img class="pl-real" src="img/obra/planta-real.webp" alt="Planta real da Penthouse, Rua 120" width="550" height="807" decoding="async"></div>
+                <div class="pl-box pl-realbox"><img class="pl-real" src="/img/obra/planta-real.webp" alt="Planta real da Penthouse, Rua 120" width="550" height="807" decoding="async"></div>
               </div>
               <div class="pl-tools" role="group" aria-label="Zoom da planta">
                 <button type="button" class="pl-zb" data-z="out" aria-label="Diminuir zoom"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h9" stroke="currentColor" stroke-width="1.4"/></svg></button>
@@ -195,22 +209,22 @@
       </div>
       <div class="dif-row" id="svcList">
         <article class="dif on" style="--ar:0.875">
-          <figure class="dif-media"><img src="img/obelisco-skyhomes/capa.webp" alt="" loading="lazy" width="1000" height="1143"></figure>
+          <figure class="dif-media"><img src="/img/obelisco-skyhomes/capa.webp" alt="" loading="lazy" width="1000" height="1143"></figure>
           <button class="dif-btn" id="difB1" type="button" aria-expanded="true" aria-controls="difP1"><i class="dif-ic" aria-hidden="true"></i><span class="dif-v">Marcos arquitetônicos</span></button>
           <div class="dif-body" id="difP1" role="region" aria-labelledby="difB1"><h3>Marcos arquitetônicos</h3><p>Edifícios que se tornam referência na paisagem de Santa Catarina.</p></div>
         </article>
         <article class="dif" style="--ar:0.8">
-          <figure class="dif-media"><img src="img/yangzhou/capa.webp" alt="" loading="lazy" width="1000" height="1250"></figure>
+          <figure class="dif-media"><img src="/img/yangzhou/capa.webp" alt="" loading="lazy" width="1000" height="1250"></figure>
           <button class="dif-btn" id="difB2" type="button" aria-expanded="false" aria-controls="difP2"><i class="dif-ic" aria-hidden="true"></i><span class="dif-v">Inovação temática</span></button>
           <div class="dif-body" id="difP2" role="region" aria-labelledby="difB2"><h3>Inovação temática</h3><p>Cada torre parte de um conceito próprio, e não de um repertório repetido.</p></div>
         </article>
         <article class="dif" style="--ar:0.75">
-          <figure class="dif-media"><img src="img/louvre-home-flats/01.webp" alt="" loading="lazy" width="1000" height="1333"></figure>
+          <figure class="dif-media"><img src="/img/louvre-home-flats/01.webp" alt="" loading="lazy" width="1000" height="1333"></figure>
           <button class="dif-btn" id="difB3" type="button" aria-expanded="false" aria-controls="difP3"><i class="dif-ic" aria-hidden="true"></i><span class="dif-v">Parcerias com artistas</span></button>
           <div class="dif-body" id="difP3" role="region" aria-labelledby="difB3"><h3>Parcerias com artistas</h3><p>Transformando edifícios em verdadeiras homenagens culturais.</p></div>
         </article>
         <article class="dif" style="--ar:0.7">
-          <figure class="dif-media"><img src="img/legacy/01.webp" alt="" loading="lazy" width="1000" height="1429"></figure>
+          <figure class="dif-media"><img src="/img/legacy/01.webp" alt="" loading="lazy" width="1000" height="1429"></figure>
           <button class="dif-btn" id="difB4" type="button" aria-expanded="false" aria-controls="difP4"><i class="dif-ic" aria-hidden="true"></i><span class="dif-v">Assinatura criativa</span></button>
           <div class="dif-body" id="difP4" role="region" aria-labelledby="difB4"><h3>Assinatura criativa</h3><p>Identidade única a cada prédio.</p></div>
         </article>
@@ -224,18 +238,18 @@
         <div>
           <h2 class="up" style="margin-top:24px">Projetos em destaque</h2>
         </div>
-        <a href="#/projetos" data-link class="btn up"><span>Ver todos os projetos</span><i></i></a>
+        <a href="/projetos" data-link class="btn up"><span>Ver todos os projetos</span><i></i></a>
       </div>
       <div class="mosaic" id="homeGrid"></div>
     </div>
   </section>
 
-  <!-- ===== PATROCINADORES: ícone + nome escrito, duas faixas em loop (lista em js/data.js · css: bloco .pat) ===== -->
-  <section class="pat" aria-label="Patrocinadores">
-    <div class="wrap"><span class="kicker up">Patrocinadores</span></div>
+  <!-- ===== CLIENTES: ícone + nome escrito, duas faixas em loop (lista em js/data.js · css: bloco .pat) ===== -->
+  <section class="pat" aria-label="Clientes">
+    <div class="wrap"><span class="kicker up">Clientes</span></div>
     <div class="pat-rows" id="patRows"></div>
     <div class="wrap">
-      <figure class="pat-banner up"><img src="img/artistas-platinum.webp" alt="Arquitetura e música nos inspiram — artistas parceiros da RS Platinum" width="2048" height="684" loading="lazy" decoding="async"></figure>
+      <figure class="pat-banner up"><img src="/img/artistas-platinum.webp" alt="Arquitetura e música nos inspiram — artistas parceiros da RS Platinum" width="2048" height="684" loading="lazy" decoding="async"></figure>
     </div>
   </section>
 
@@ -283,7 +297,7 @@
        .st-par = janela com imagem fixa: a foto fica parada e a página desliza por cima.
        Para trocar a foto, mude o src do <img class="st-par-img">. -->
   <section class="st-hero st-par" aria-label="Entrada de edifício projetado pela PLATINUM">
-    <img class="st-par-img" src="img/yangzhou/03.webp" alt="" width="2200" height="1210" decoding="async" style="--pos:center 55%">
+    <img class="st-par-img" src="/img/yangzhou/03.webp" alt="" width="2200" height="1210" decoding="async" style="--pos:center 55%">
     <div class="st-hero-in wrap">
       <h1 data-split>Arquitetura vertical é o nosso ofício.</h1>
       <div class="st-hero-foot">
@@ -309,7 +323,7 @@
   <section class="st-team">
     <div class="wrap">
       <figure class="st-team-fig clip">
-        <img src="img/estudio/equipe.webp" alt="Equipe PLATINUM Arquitetura de Alto Padrão" width="2400" height="1600" loading="lazy" decoding="async"
+        <img src="/img/estudio/equipe.webp" alt="Equipe PLATINUM Arquitetura de Alto Padrão" width="2400" height="1600" loading="lazy" decoding="async"
              onerror="this.parentNode.classList.add('vazio')">
         <div class="st-team-vazio" aria-hidden="true"><svg class="mk" viewBox="0 0 1229 1566"><use href="#logo-tight"/></svg><span>Foto da equipe</span></div>
       </figure>
@@ -340,13 +354,13 @@
   </section>
 
   <section class="st-cta st-par" aria-label="Legacy, Itapema">
-    <img class="st-par-img" src="img/legacy/capa.webp" alt="" width="2048" height="1493" loading="lazy" decoding="async" style="--pos:center 40%">
+    <img class="st-par-img" src="/img/legacy/capa.webp" alt="" width="2048" height="1493" loading="lazy" decoding="async" style="--pos:center 40%">
     <div class="st-cta-in">
       <h2 data-split>Vamos desenhar o próximo marco?</h2>
       <p class="up">Conte o terreno, a cidade e o produto que você imagina. Isso encurta bastante a primeira conversa.</p>
       <div class="st-cta-btns up">
         <a class="btn btn-gold" href="https://wa.me/xxxxxxxxxxxxx?text=Ol%C3%A1!%20Quero%20falar%20sobre%20um%20projeto." target="_blank" rel="noopener"><span>Conversar pelo WhatsApp</span><i></i></a>
-        <a class="btn" href="#/projetos" data-link><span>Ver os projetos</span><i></i></a>
+        <a class="btn" href="/projetos" data-link><span>Ver os projetos</span><i></i></a>
       </div>
     </div>
   </section>
@@ -362,7 +376,7 @@
       <div class="cta-side up">
         <a class="btn btn-gold" href="https://wa.me/xxxxxxxxxxxxx?text=Ol%C3%A1!%20Quero%20falar%20sobre%20um%20projeto." target="_blank" rel="noopener"><span>Conversar pelo WhatsApp</span><i></i></a>
         <div class="cta-list">
-          <div><small class="lbl">Telefone</small><a href="">(xx) xxxxx-xxxx</a><a href="tel:+xxxxxxxxxxxxx">(xx) xxxxx-xxxx</a></div>
+          <div><small class="lbl">Telefone</small><a href="tel:+xxxxxxxxxxxxx">(xx) xxxxx-xxxx</a><a href="tel:+xxxxxxxxxxxxx">(xx) xxxxx-xxxx</a></div>
           <div><small class="lbl">Instagram</small><a href="https://instagram.com/premium" target="_blank" rel="noopener">@premium</a></div>
           <div><small class="lbl">Atuação</small><span>Itapema, Porto Belo e litoral de Santa Catarina</span></div>
         </div>
@@ -372,7 +386,120 @@
   <section style="padding-top:0">
     <div class="wrap">
       <div class="clip" style="aspect-ratio:21/9">
-        <img src="img/sense-mare/04.webp" alt="Sense Mare, Itapema" loading="lazy">
+        <img src="/img/sense-mare/04.webp" alt="Sense Mare, Itapema" loading="lazy">
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== POLÍTICA DE PRIVACIDADE E DE COOKIES (LGPD) =====
+     Os dados da empresa vêm do js/config.js (data-cfg). Os trechos com data-se só aparecem quando a ferramenta
+     está ligada no config.js: data-se="ga4" (Google Analytics), "meta" (Pixel da Meta), "ck" (há aviso de cookies),
+     "semck" (não há). Assim o texto sempre descreve o site como ele está. Peça para um advogado revisar antes de publicar. -->
+<div class="page" data-page="privacidade">
+  <section class="page-head legal-head">
+    <div class="wrap">
+      <span class="kicker up">LGPD · Lei 13.709/2018</span>
+      <h1 data-split>Política de Privacidade e de Cookies</h1>
+      <p class="up">Como tratamos dados pessoais e cookies neste site, em linguagem simples. Última atualização: outubro de 2026.</p>
+    </div>
+  </section>
+  <section class="legal">
+    <div class="wrap legal-in">
+      <nav class="legal-idx" aria-label="Nesta página">
+        <span>Nesta página</span>
+        <ol><li>Quem somos</li><li>Glossário</li><li>Quais dados tratamos</li><li>Para que usamos e com qual base legal</li><li>Cookies e tecnologias semelhantes</li><li>Com quem compartilhamos</li><li>Segurança, armazenamento e descarte</li><li>Seus direitos</li><li>Canal de comunicação e encarregado</li><li>Atualizações desta política</li><li>Lei aplicável</li></ol>
+      </nav>
+
+      <h2>1. Quem somos</h2>
+      <p>Este site é da <b data-cfg="razaoSocial">Rafael Schmitt Platinum</b><span data-cfg-cnpj>, inscrita no CNPJ <span data-cfg="cnpj"></span></span>, com sede em <span data-cfg="cidade">Itapema</span>/<span data-cfg="estado">SC</span>. Somos a controladora dos dados pessoais tratados aqui, ou seja, quem decide como eles são usados.</p>
+      <p>Coletamos e tratamos o mínimo de informações necessário, só para as finalidades descritas abaixo. Navegar pelo site não exige cadastro nem o fornecimento de nenhum dado pessoal.</p>
+
+      <h2>2. Glossário</h2>
+      <dl class="legal-gl">
+        <dt>LGPD</dt><dd>Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018).</dd>
+        <dt>Dado pessoal</dt><dd>Informação relacionada a uma pessoa identificada ou identificável, como nome, telefone ou e-mail.</dd>
+        <dt>Dado pessoal sensível</dt><dd>Dado sobre origem racial ou étnica, religião, opinião política, filiação sindical, saúde, vida sexual, genética ou biometria. Este site não coleta dados sensíveis.</dd>
+        <dt>Titular</dt><dd>A pessoa a quem os dados se referem, no caso, você.</dd>
+        <dt>Tratamento</dt><dd>Qualquer operação com dados pessoais: coletar, usar, guardar, compartilhar, apagar etc.</dd>
+        <dt>Cookie</dt><dd>Pequeno arquivo de texto que o site guarda no seu navegador para lembrar informações entre uma visita e outra.</dd>
+      </dl>
+
+      <h2>3. Quais dados tratamos</h2>
+      <p><b>Quando você fala com a gente.</b> Este site não tem formulário. O contato acontece direto pelo WhatsApp, telefone, e-mail ou Instagram, e recebemos o que você nos enviar por lá: nome, telefone, e-mail e as informações do seu projeto. Guardamos o histórico dessas conversas para dar continuidade ao atendimento. Esses aplicativos têm as próprias políticas de privacidade.</p>
+      <p><b>Quando você navega.</b> Medimos as visitas de forma agregada e sem identificar ninguém: páginas vistas, de onde veio a visita (Google, Instagram, link direto), país e tipo de aparelho, pelo Cloudflare Web Analytics, que não usa cookies<span data-se="ga4">. Só com a sua autorização no aviso de cookies, também usamos o Google Analytics, que guarda cookies para contar visitas de retorno e pode registrar, entre outros, cidade aproximada, navegador, tempo de visita e cliques nos botões de contato</span><span data-se="meta">. Se você autorizar o marketing, o Pixel da Meta mede o resultado dos nossos anúncios no Instagram e no Facebook</span>.</p>
+      <p><b>Segurança e hospedagem.</b> O site é hospedado na Cloudflare, que processa dados técnicos da conexão, como o endereço IP, para entregar as páginas e proteger o site contra ataques.</p>
+
+      <h2>4. Para que usamos e com qual base legal</h2>
+      <ul>
+        <li><b>Responder seu contato e preparar uma proposta:</b> procedimentos preliminares a um contrato e legítimo interesse (art. 7º, V e IX, da LGPD).</li>
+        <li><b>Estatísticas de uso do site, sem cookies:</b> legítimo interesse (art. 7º, IX), com dados agregados que não identificam você.</li>
+        <li data-se="ga4"><b>Estatísticas com cookies (Google Analytics):</b> seu consentimento (art. 7º, I). Você pode recusar sem perder nenhuma função do site.</li>
+        <li data-se="meta"><b>Medição de anúncios:</b> seu consentimento (art. 7º, I).</li>
+        <li><b>Segurança do site e cumprimento de obrigações legais:</b> legítimo interesse e obrigação legal (art. 7º, II e IX).</li>
+      </ul>
+      <p>Não usamos seus dados para decisões automatizadas nem para finalidades diferentes destas. Se um dia isso for necessário, pediremos sua autorização antes.</p>
+
+      <h2>5. Cookies e tecnologias semelhantes</h2>
+      <p data-se="semck">Hoje, este site <b>não usa cookies de análise nem de publicidade</b>. A única informação guardada no seu navegador é técnica e necessária para o site funcionar. Por isso, não exibimos aviso de cookies. Se isso mudar, esta política será atualizada e um aviso pedirá sua autorização antes.</p>
+      <p data-se="ck">Na primeira visita, um aviso pede a sua escolha: aceitar, recusar ou personalizar. Cookies que não sejam necessários só são ativados depois do seu "sim", e você pode mudar de ideia quando quiser em <button type="button" class="link-ck" data-abrir-cookies>Preferências de cookies</button>, aqui ou no rodapé do site.</p>
+      <div class="legal-tab">
+        <table>
+          <thead><tr><th>Tipo</th><th>Para que serve</th><th>Exemplos e duração</th></tr></thead>
+          <tbody>
+            <tr><td>Necessários</td><td>Fazer o site funcionar e guardar a sua escolha sobre cookies. Não podem ser desligados.</td><td>Preferência de cookies (armazenamento local do navegador): 12 meses</td></tr>
+            <tr data-se="ga4"><td>Desempenho</td><td>Entender como o site é usado para melhorá-lo, com dados agregados. Só com autorização.</td><td>Google Analytics (<code>_ga</code>, <code>_ga_*</code>): até 2 anos</td></tr>
+            <tr data-se="meta"><td>Publicidade</td><td>Medir o resultado de anúncios no Instagram e no Facebook. Só com autorização.</td><td>Pixel da Meta (<code>_fbp</code>): até 3 meses</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><b>Como controlar pelo navegador.</b> Você também pode apagar os cookies já gravados e bloquear novos nas configurações do seu navegador (Chrome, Safari, Firefox, Edge). Recusar cookies de análise ou de publicidade não impede o uso de nenhuma parte deste site.</p>
+
+      <h2>6. Com quem compartilhamos</h2>
+      <p>Não vendemos nem alugamos dados pessoais. Eles só são compartilhados com fornecedores que nos ajudam a operar o site e que os tratam em nosso nome: Cloudflare (hospedagem, segurança e estatísticas sem cookies)<span data-se="ga4">, Google (Analytics)</span><span data-se="meta">, Meta (Pixel)</span>. Esses serviços podem guardar dados em servidores fora do Brasil, com as garantias previstas no art. 33 da LGPD.</p>
+      <p>Também podemos fornecer dados quando houver ordem judicial ou exigência legal de uma autoridade competente, sempre no limite do que for exigido.</p>
+
+      <h2>7. Segurança, armazenamento e descarte</h2>
+      <p>Adotamos medidas técnicas e organizacionais para proteger os dados contra acesso não autorizado, perda, alteração ou vazamento. O site usa conexão criptografada (HTTPS), e só as pessoas que precisam atender você têm acesso às conversas de contato.</p>
+      <p>As conversas de contato ficam guardadas pelo tempo necessário para o atendimento e para cumprir obrigações legais, e depois são apagadas.<span data-se="ga4"> As estatísticas do Google Analytics são apagadas automaticamente após 14 meses.</span> Registros de acesso, quando existirem, seguem os prazos do Marco Civil da Internet (Lei nº 12.965/2014).</p>
+
+      <h2>8. Seus direitos</h2>
+      <p>Pela LGPD (art. 18), você pode, a qualquer momento e sem custo:</p>
+      <ul>
+        <li>confirmar se tratamos seus dados e ter acesso a eles;</li>
+        <li>corrigir dados incompletos, inexatos ou desatualizados;</li>
+        <li>pedir a anonimização, o bloqueio ou a eliminação de dados desnecessários ou excessivos;</li>
+        <li>pedir a portabilidade dos dados a outro fornecedor;</li>
+        <li>pedir a eliminação dos dados tratados com base no seu consentimento;</li>
+        <li>saber com quem compartilhamos seus dados;</li>
+        <li>saber que pode não consentir, e quais as consequências disso;</li>
+        <li>revogar o consentimento dado;</li>
+        <li>se opor a um tratamento que descumpra a LGPD.</li>
+      </ul>
+      <p>Você também pode reclamar à Autoridade Nacional de Proteção de Dados (ANPD).</p>
+
+      <h2>9. Canal de comunicação e encarregado</h2>
+      <p>Para exercer seus direitos ou tirar qualquer dúvida sobre esta política, fale com o nosso encarregado pelo tratamento de dados (art. 41 da LGPD)<span data-cfg-enc>, <span data-cfg="encarregado"></span>,</span> pelo e-mail <a data-cfg="emailPrivacidade" data-cfg-mail href="/contato" data-link>informado na página de contato</a>. Respondemos em até 15 dias.</p>
+
+      <h2>10. Atualizações desta política</h2>
+      <p>Esta política pode ser atualizada quando mudarmos a forma de tratar dados ou incluirmos novas ferramentas no site. A data da última atualização fica sempre no topo desta página. Mudanças que exijam uma nova autorização sua serão avisadas no próprio site.</p>
+
+      <h2>11. Lei aplicável</h2>
+      <p>Esta política segue as leis da República Federativa do Brasil, em especial a LGPD e o Marco Civil da Internet. Fica eleito o foro da Comarca de <span data-cfg="foro">Itapema/SC</span> para resolver qualquer questão relacionada a ela, ressalvado o seu direito de procurar o foro do seu domicílio como consumidor.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ===== PÁGINA NÃO ENCONTRADA (endereço que não existe) ===== -->
+<div class="page" data-page="nao-encontrada">
+  <section class="page-head nf">
+    <div class="wrap">
+      <span class="kicker up">Erro 404</span>
+      <h1 data-split>Página não encontrada</h1>
+      <p class="up">O endereço que você acessou não existe ou mudou de lugar.</p>
+      <div class="nf-b up">
+        <a href="/" data-link class="btn"><span>Ir para o início</span><i></i></a>
+        <a href="/projetos" data-link class="btn"><span>Ver os projetos</span><i></i></a>
       </div>
     </div>
   </section>
@@ -382,12 +509,12 @@
 
 <footer>
   <div class="f-top">
-    <a href="#/" class="f-brand lockup" data-link aria-label="Rafael Schmitt Platinum — início"><svg class="mk brand-mark" viewBox="0 0 1229 1566" aria-hidden="true"><use href="#lk-mark"/></svg><svg class="brand-name" viewBox="0 0 2046 506" aria-hidden="true"><use href="#wordmark"/></svg></a>
+    <a href="/" class="f-brand lockup" data-link aria-label="Rafael Schmitt Platinum — início"><svg class="mk brand-mark" viewBox="0 0 1229 1566" aria-hidden="true"><use href="#lk-mark"/></svg><svg class="brand-name" viewBox="0 0 2046 506" aria-hidden="true"><use href="#wordmark"/></svg></a>
     <nav class="f-nav" aria-label="Rodapé">
-      <a href="#/" data-link>Início</a>
-      <a href="#/estudio" data-link>Estúdio</a>
-      <a href="#/projetos" data-link>Projetos</a>
-      <a href="#/contato" data-link>Contato</a>
+      <a href="/" data-link>Início</a>
+      <a href="/estudio" data-link>Estúdio</a>
+      <a href="/projetos" data-link>Projetos</a>
+      <a href="/contato" data-link>Contato</a>
     </nav>
     <div class="f-meta">
       <a href="https://instagram.com/premium" target="_blank" rel="noopener">@premium</a>
@@ -396,6 +523,7 @@
   </div>
   <div class="f-bot">
     <span>© <span id="yr"></span> PLATINUM Arquitetura de Alto Padrão</span>
+    <span class="f-legal"><a href="/privacidade" data-link>Política de Privacidade</a><button type="button" class="f-ck" id="fCk" hidden>Preferências de cookies</button></span>
     <span>Desenvolvido por Leonardo Baronio.</span>
   </div>
 </footer>
@@ -412,10 +540,10 @@
   <div class="ct" id="lbC" aria-live="polite"></div>
 </div>
 
-<script src="js/data.js"></script>
-<script src="js/site.js"></script>
-<script src="js/planta.js"></script>
-<script src="js/obra.js"></script>
-<script src="js/hero.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/site.js"></script>
+<script src="/js/planta.js"></script>
+<script src="/js/obra.js"></script>
+<script src="/js/hero.js"></script>
 </body>
 </html>

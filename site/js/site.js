@@ -25,7 +25,7 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
   addEventListener('mousemove',e=>{x=e.clientX;y=e.clientY;d.style.transform=`translate(${x}px,${y}px)`});
   (function loop(){rx+=(x-rx)*.14;ry+=(y-ry)*.14;r.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
   document.addEventListener('mouseover',e=>{
-    document.body.classList.toggle('cur-lg',!!e.target.closest('.card,.gal-track figure.on'));
+    document.body.classList.toggle('cur-lg',!!e.target.closest('.card,.gm-item'));
   });
   document.addEventListener('mouseleave',()=>document.body.classList.add('cur-off'));
   document.addEventListener('mouseenter',()=>document.body.classList.remove('cur-off'));
@@ -106,6 +106,7 @@ addEventListener('scroll',()=>{
   const y=scrollY, hd=$('#hd');
   hd.classList.toggle('solid',y>40);
   hd.classList.toggle('hide',y>240 && y>lastY && !document.body.classList.contains('menu-open'));
+  if(hd.classList.contains('hide') && hd.classList.contains('dd-on') && window.closeDD) closeDD();
   lastY=y;
 },{passive:true});
 
@@ -120,6 +121,39 @@ $$('.menu-l a').forEach((a,i)=>a.addEventListener('mouseenter',()=>{
 }));
 function closeMenu(){ document.body.classList.remove('menu-open','lock'); menu.classList.remove('open'); }
 
+/* ---------- DROPDOWN "PROJETOS" no header (só computador com mouse; no celular o menu continua o mesmo) ----------
+   Passar o mouse em "Projetos" abre a lista de todos os empreendimentos (PROJECTS, no js/data.js),
+   com a capa do projeto sob o mouse à direita. Teclado: Tab abre, Esc fecha.
+   DD_FECHA = tempo de tolerância ao sair com o mouse, para a lista não fechar no caminho. */
+const DD_FECHA = 160;
+const hd=$('#hd'), dd=$('#ddProj'), ddTrig=$('#ddTrig');
+let ddT=0, ddTrava=false;
+(function montaDropdown(){
+  if(!dd||!ddTrig) return;
+  $('#ddList').innerHTML = PROJECTS.map((p,k)=>`<li><a href="/projeto/${p.slug}" data-link data-k="${k}" style="--k:${k}">
+      <b>${p.title}</b><small>${p.cat} · ${p.cidade}</small></a></li>`).join('')
+    + `<li class="dd-all"><a href="/projetos" data-link style="--k:${PROJECTS.length}"><span>Ver todos os projetos</span><i></i></a></li>`;
+  $('#ddPrev').innerHTML = PROJECTS.map((p,k)=>`<img src="${p.cover}" alt="" loading="lazy" decoding="async" class="${k?'':'on'}" style="object-position:${p.coverPosition||'center'}">`).join('');
+  const prev=$$('#ddPrev img');
+  $$('#ddList a[data-k]').forEach(a=>{
+    const on=()=>prev.forEach((im,k)=>im.classList.toggle('on',k===+a.dataset.k));
+    a.addEventListener('mouseenter',on); a.addEventListener('focus',on);
+  });
+  const podeHover=matchMedia('(hover:hover) and (pointer:fine)');
+  const abre=()=>{ if(ddTrava||innerWidth<=900) return; clearTimeout(ddT); hd.classList.add('dd-on'); ddTrig.setAttribute('aria-expanded','true'); };
+  const fechaJa=()=>{ clearTimeout(ddT); hd.classList.remove('dd-on'); ddTrig.setAttribute('aria-expanded','false'); };
+  const fecha=()=>{ clearTimeout(ddT); ddT=setTimeout(fechaJa,DD_FECHA); };
+  [ddTrig,dd].forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ if(podeHover.matches) abre(); });
+    el.addEventListener('mouseleave',()=>{ ddTrava=false; fecha(); });
+  });
+  ddTrig.addEventListener('focus',()=>{ if(ddTrig.matches(':focus-visible')) abre(); });
+  hd.addEventListener('focusout',e=>{ if(!dd.contains(e.relatedTarget)&&e.relatedTarget!==ddTrig) fecha(); });
+  addEventListener('keydown',e=>{ if(e.key==='Escape'&&hd.classList.contains('dd-on')){ fechaJa(); ddTrig.focus(); } });
+  /* depois de um clique, fecha e só volta a abrir quando o mouse sair e entrar de novo */
+  window.closeDD=()=>{ if(hd.classList.contains('dd-on')) ddTrava=true; fechaJa(); };
+})();
+
 /* ---------- estúdio: a abertura escurece e o título sobe conforme a página desliza sobre a foto ---------- */
 (function estudioHero(){
   const hero=$('.st-hero'); if(!hero || reduce) return;
@@ -130,7 +164,7 @@ function closeMenu(){ document.body.classList.remove('menu-open','lock'); menu.c
     hero.style.setProperty('--k',k.toFixed(3));
   };
   addEventListener('scroll',()=>{ if(!raf) raf=requestAnimationFrame(tick); },{passive:true});
-  addEventListener('hashchange',()=>setTimeout(tick,1200));
+  addEventListener('rota',()=>setTimeout(tick,200));
 })();
 
 (function diferenciais(){
@@ -186,7 +220,7 @@ function band(el,words){ if(!el) return; const h=words.map(w=>`<span>${w}</span>
 band($('#band2'),['Itapema','Porto Belo','Santa Catarina']);
 
 function card(p,cls,style){
-  return `<a class="card ${cls||p.span}" href="#/projeto/${p.slug}" data-link data-cat="${p.cat}" style="--pos:${p.coverPosition||'center'};${style||''}">
+  return `<a class="card ${cls||p.span}" href="/projeto/${p.slug}" data-link data-cat="${p.cat}" style="--pos:${p.coverPosition||'center'};${style||''}">
     <div class="ph"><img src="${p.cover}" alt="${p.title}" loading="lazy"></div>
     <div class="veil"></div><div class="gold-line"></div>
     <div class="cap"><small>${p.cat} · ${p.cidade}</small><h3>${p.title}</h3><u>Visualizar projeto</u></div>
@@ -216,19 +250,62 @@ function mosaic(list){
 const featured = (typeof HOME_FEATURED!=='undefined' ? HOME_FEATURED.map(s=>PROJECTS.find(p=>p.slug===s)).filter(Boolean) : []);
 $('#homeGrid').innerHTML = mosaic(featured.length===6 ? featured : PROJECTS.slice(0,6));
 
-/* ---------- PATROCINADORES: duas faixas em loop, sentidos opostos (lista em data.js) ---------- */
-(function patrocinadores(){
-  const box=$('#patRows'); if(!box||typeof PATROCINADORES==='undefined'||!PATROCINADORES.length) return;
-  const item=(p,dup)=>`<div class="pat-item"${dup?' aria-hidden="true"':''}>`+
-    (p.mono ? `<span class="pat-ic pat-mono" style="-webkit-mask-image:url('${p.logo}');mask-image:url('${p.logo}');aspect-ratio:${p.ar||1}"></span>`
-            : `<img class="pat-ic" src="${p.logo}" alt="" loading="lazy" decoding="async">`)+
-    `<span class="pat-nm">${p.nome}</span></div>`;
-  const row=(list,rev,dur)=>{
-    const h=list.map(p=>item(p,false)).join(''), d=list.map(p=>item(p,true)).join('');
-    return `<div class="pat-row"><div class="pat-track${rev?' rev':''}" style="--dur:${dur}s">${h}${d}</div></div>`;
+/* ---------- CLIENTES: duas faixas em loop, sentidos opostos (lista em data.js) ---------- */
+(function clientes(){
+  const box=$('#patRows'); if(!box||typeof CLIENTES==='undefined'||!CLIENTES.length) return;
+  /* logo que já é o nome escrito (wm): tamanho pela área, para uma logo larga e uma quadrada pesarem igual */
+  const wmH=(ar,esc=1)=>{ const [w,h]=String(ar||1).split('/').map(Number), r=h?w/h:w; return Math.max(24,Math.min(40,Math.sqrt(4600/r)))*esc; };
+  const item=(p,dup)=>{
+    const c=p.cor?`--c:${p.cor};`:'';
+    const ic=p.mono
+      ? `<span class="pat-ic pat-mono${p.wm?' pat-wm':''}" style="${c}-webkit-mask-image:url('${p.logo}');mask-image:url('${p.logo}');aspect-ratio:${p.ar||1}${p.wm?`;--wm-h:${wmH(p.ar,p.esc).toFixed(1)}px`:''}"${p.wm?` role="img" aria-label="${p.nome}"`:''}></span>`
+      : `<img class="pat-ic" src="${p.logo}" alt="" loading="lazy" decoding="async">`;
+    return `<div class="pat-item${p.wm?' is-wm':''}"${dup?' aria-hidden="true"':''}>${ic}${p.wm?'':`<span class="pat-nm">${p.nome}</span>`}</div>`;
   };
-  const a=PATROCINADORES, m=Math.ceil(a.length/2), b=[...a.slice(m),...a.slice(0,m)];
-  box.innerHTML=row(a,false,58)+row(b,true,66);
+  /* cada faixa leva metade da lista; a velocidade acompanha o tamanho (PAT_SEG = segundos por cliente) */
+  const PAT_SEG=4.6;
+  const row=(list,rev,f)=>{
+    const h=list.map(p=>item(p,false)).join(''), d=list.map(p=>item(p,true)).join('');
+    return `<div class="pat-row"><div class="pat-track${rev?' rev':''}" style="--dur:${(list.length*PAT_SEG*f).toFixed(0)}s">${h}${d}</div></div>`;
+  };
+  const monta=()=>{
+    const a=CLIENTES, m=Math.ceil(a.length/2);
+    box.innerHTML=row(a.slice(0,m),false,1)+row(a.slice(m),true,1.12);
+  };
+  /* só monta (e só baixa os ícones) quando a seção chega perto da tela */
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)){ io.disconnect(); monta(); } },{rootMargin:'900px 0px'});
+    io.observe(box);
+  } else monta();
+})();
+
+/* ---------- MARCAÇÕES NO BANNER DOS ARTISTAS (estilo Instagram; lista ARTISTAS no data.js) ----------
+   Computador: passar o mouse em cima de uma pessoa mostra o nome e o @; o botão "Quem é quem" mostra todos.
+   Celular: tocar no banner mostra/esconde todos (como no Instagram). Cada marcação leva ao Instagram. */
+(function marcacoes(){
+  const fig=$('.pat-banner'); if(!fig||typeof ARTISTAS==='undefined'||!ARTISTAS.length) return;
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+  const arroba=u=>{ try{ return '@'+new URL(u).pathname.replace(/\//g,''); }catch(e){ return ''; } };
+  const lista=[...ARTISTAS].sort((a,b)=>a.x-b.x);
+  const html=lista.map((a,i)=>{
+    /* área sensível: até a metade do caminho para o vizinho, no máximo 4,5% para cada lado */
+    const ant=lista[i-1], prox=lista[i+1];
+    const l=Math.max(a.x-4.5, ant?(a.x+ant.x)/2:0), r=Math.min(a.x+4.5, prox?(a.x+prox.x)/2:100);
+    const tag=a.ig?'a':'span', at=a.ig?arroba(a.ig):'';
+    const attrs=a.ig?`href="${esc(a.ig)}" target="_blank" rel="noopener" aria-label="${esc(a.nome)}${a.grupo?' ('+esc(a.grupo)+')':''} no Instagram, ${esc(at)}"`
+                    :`tabindex="0" aria-label="${esc(a.nome)}"`;
+    return `<div class="tg" style="--x:${a.x};--y:${a.y};--r2:${i%2};--r3:${i%3}">
+      <span class="tg-hit" style="left:${l.toFixed(2)}%;width:${(r-l).toFixed(2)}%;top:${Math.max(0,a.y-10)}%"></span>
+      <${tag} class="tg-b" ${attrs}><b>${esc(a.nome)}</b><small class="tg-curto">${esc(a.curto||a.nome)}</small>${a.grupo?`<em>${esc(a.grupo)}</em>`:''}${at?`<i>${esc(at)}</i>`:''}</${tag}>
+    </div>`;
+  }).join('');
+  fig.insertAdjacentHTML('beforeend',`<div class="tgs" aria-label="Artistas no banner">${html}</div>
+    <button type="button" class="tg-btn" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6.6 19.2c1-2.6 3-4 5.4-4s4.4 1.4 5.4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Quem é quem</span></button>`);
+  const btn=$('.tg-btn',fig);
+  const liga=on=>{ fig.classList.toggle('tg-all',on); btn.setAttribute('aria-pressed',on?'true':'false'); };
+  btn.addEventListener('click',e=>{ e.stopPropagation(); liga(!fig.classList.contains('tg-all')); });
+  /* toque: tocar no banner (fora de uma marcação) liga/desliga todas */
+  fig.addEventListener('click',e=>{ if(matchMedia('(hover:none)').matches && !e.target.closest('.tg-b')) liga(!fig.classList.contains('tg-all')); });
 })();
 
 const cats=['Todos',...new Set(PROJECTS.map(p=>p.cat))];
@@ -319,22 +396,12 @@ function renderProject(slug){
       <div class="p-edit-media diag">${media}</div>
     </div>
   </section>
-  <section class="gal-sec" aria-roledescription="galeria" aria-label="Galeria de ${p.title}">
+  <section class="gal-sec" aria-label="Galeria de ${p.title}">
     <div class="gal-head">
       <div><h2 class="up">Galeria</h2></div>
-      <div class="gal-count" aria-live="polite"><b id="galCur">01</b> / ${pad2(imgs.length)}</div>
+      <div class="gal-count">${pad2(imgs.length)} imagens</div>
     </div>
-    <div class="gal-stage" id="galStage" tabindex="0" aria-label="Imagens de ${p.title}. Use as setas do teclado para navegar.">
-      <div class="gal-track" id="galTrack">
-        ${imgs.map((g,i)=>`<figure class="${i?'':'on'}"><img ${i?`data-src="${g}" loading="lazy"`:`src="${g}"`} alt="${p.title} — imagem ${i+1}" draggable="false"></figure>`).join('')}
-      </div>
-      <button class="gal-nav prev" id="galP" aria-label="Imagem anterior">${ICON_PREV}</button>
-      <button class="gal-nav next" id="galN" aria-label="Próxima imagem">${ICON_NEXT}</button>
-      <button class="gal-full" id="galF" aria-label="Abrir em tela cheia">${ICON_FULL}</button>
-    </div>
-    <div class="gal-dots" id="galDots" role="tablist" aria-label="Escolher imagem">
-      ${imgs.map((_,i)=>`<button role="tab" aria-selected="${i?'false':'true'}" aria-label="Imagem ${i+1}"><i></i></button>`).join('')}
-    </div>
+    <div class="gm" id="galMos" aria-label="Imagens de ${p.title}. Clique em uma foto para ampliar."></div>
   </section>
   ${plantas.length ? `
   <section class="pp-sec" id="plantas" aria-label="Plantas de ${p.title}">
@@ -366,7 +433,7 @@ function renderProject(slug){
     <div class="wrap">
       <div class="proj-head">
         <div><h2 class="up" style="margin-top:22px">Outros projetos</h2></div>
-        <a href="#/projetos" data-link class="btn up"><span>Ver todos</span><i></i></a>
+        <a href="/projetos" data-link class="btn up"><span>Ver todos</span><i></i></a>
       </div>
       <div class="grid">${others.map(o=>card(o,'c-4 r-capa')).join('')}</div>
     </div>
@@ -385,7 +452,7 @@ function renderProject(slug){
     };
   }
 
-  initGallery(imgs);
+  initGallery(imgs,p.title);
   if(plantas.length) initPlantas(plantas);
 }
 
@@ -492,52 +559,96 @@ function initPlantas(list){
     });
 }
 
-let gal=null;
-function initGallery(imgs){
-  const stage=$('#galStage'), track=$('#galTrack'), dots=$$('#galDots button'), cur=$('#galCur');
-  const figsG=$$('figure',track);
-  let i=0, swiped=false;
-  const load=k=>{ const im=figsG[k]&&$('img',figsG[k]); if(im&&!im.src&&im.dataset.src){ im.src=im.dataset.src; } };
-  const preload=()=>{ load(i); if(imgs.length>1){ load((i+1)%imgs.length); load((i-1+imgs.length)%imgs.length); } };
-  /* o quadro ganha a proporção da foto atual: altura máxima fixa, largura acompanha a imagem.
-     Assim não sobra faixa clara em volta, mesmo com fotos de tamanhos diferentes. */
-  function fit(){
-    const im=$('img',figsG[i]); if(!im||!im.naturalWidth) return;
-    const ar=im.naturalWidth/im.naturalHeight, mob=innerWidth<=768;
-    const maxW=mob?innerWidth-36:Math.min(innerWidth*.82,1520);
-    const maxH=mob?Math.min(innerHeight*.65,maxW*1.25):Math.min(innerHeight*.78,maxW*.625);
-    let w=maxW, h=w/ar; if(h>maxH){ h=maxH; w=h*ar; }
-    stage.style.width=Math.round(w)+'px'; stage.style.height=Math.round(h)+'px';
-  }
-  figsG.forEach((f,k)=>$('img',f).addEventListener('load',()=>{ if(k===i) fit(); }));
-  addEventListener('resize',()=>{ if(stage.isConnected) fit(); });
-  function show(n,dir){
-    n=(n+imgs.length)%imgs.length; if(n===i&&figsG[n].classList.contains('on')) return;
-    stage.dataset.dir=dir||(n>i?'next':'prev');
-    figsG.forEach((f,k)=>{
-      if(k===n){ f.classList.remove('out'); void f.offsetWidth; f.classList.add('on'); }
-      else if(f.classList.contains('on')){ f.classList.remove('on'); f.classList.add('out'); }
-      else f.classList.remove('out');
-    });
-    dots.forEach((d,k)=>{ d.classList.toggle('on',k===n); d.setAttribute('aria-selected',k===n?'true':'false'); });
-    i=n; cur.textContent=pad2(i+1); preload(); fit();
-  }
-  dots[0].classList.add('on');
-  preload(); fit();
-  $('#galP').onclick=()=>show(i-1,'prev');
-  $('#galN').onclick=()=>show(i+1,'next');
-  dots.forEach((d,k)=>d.onclick=()=>show(k));
-  $('#galF').onclick=()=>openLb(imgs,i);
-  track.addEventListener('click',e=>{ if(swiped){ swiped=false; return; } if(e.target.closest('figure.on')) openLb(imgs,i); });
-  if(imgs.length<2){ $('#galP').disabled=true; $('#galN').disabled=true; }
-  let sx=0,sy=0,sw=false;
-  stage.addEventListener('pointerdown',e=>{ sx=e.clientX; sy=e.clientY; sw=true; });
-  stage.addEventListener('pointerup',e=>{
-    if(!sw) return; sw=false;
-    const dx=e.clientX-sx, dy=e.clientY-sy;
-    if(Math.abs(dx)>40 && Math.abs(dx)>Math.abs(dy)){ swiped=true; dx<0?show(i+1,'next'):show(i-1,'prev'); setTimeout(()=>swiped=false,350); }
+let gal=null;   // o carrossel antigo saiu; fica null para o atalho de teclado e a tela cheia ignorarem
+/* ---------- GALERIA EM MOSAICO COM PARALLAX ----------
+   As fotos entram em colunas (4 em tela grande com 10+ fotos, 3 no computador, 2 no tablet/celular),
+   cada uma INTEIRA, na proporção original (nada é cortado).
+   Sem buraco no fim: as fotos são distribuídas para as colunas ficarem com alturas parecidas e, no fim,
+   a largura de cada coluna é ajustada (alguns px) para todas terminarem exatamente na mesma linha.
+   Parallax: ao rolar, as colunas andam em velocidades diferentes (começam desencontradas no topo) e se
+   alinham quando o fim da galeria chega no pé da tela — a base fica sempre reta.
+   Ajustes: GM_AMP (desencontro máximo das colunas, px) e GM_SPEED (quanto cada coluna começa abaixo, 0 a 1). */
+const GM_AMP   = ()=> innerWidth<=700 ? 48 : Math.min(160, innerHeight*.16);
+const GM_SPEED = { 2:[0,.8], 3:[0,.9,.45], 4:[0,.85,.35,.65] };
+let gm=null;
+function initGallery(imgs,title){
+  const box=$('#galMos'); if(!box) return;
+  gm={box,imgs,title,ars:null,cols:0,colEls:[],grupos:[]};
+  const me=gm;
+  /* proporções reais: carrega as fotos quando a galeria chega perto da tela */
+  const medir=()=>Promise.all(imgs.map(src=>new Promise(res=>{
+    const im=new Image(); im.onload=()=>res(im.naturalWidth/im.naturalHeight||4/3); im.onerror=()=>res(4/3); im.src=src;
+  })));
+  const io2=new IntersectionObserver(es=>{
+    if(!es.some(e=>e.isIntersecting)) return;
+    io2.disconnect();
+    medir().then(ars=>{ if(gm!==me) return; me.ars=ars; montaMosaico(true); });
+  },{rootMargin:'1400px 0px'});
+  io2.observe(box);
+  box.addEventListener('click',e=>{
+    const b=e.target.closest('.gm-item'); if(b) openLb(imgs,+b.dataset.i,false);
   });
-  gal={stage,show,get i(){return i}};
+  new ResizeObserver(()=>{ if(gm===me) { montaMosaico(false); larguras(); gmTick(); } }).observe(box);
+}
+function gmCols(){
+  const n=innerWidth>1500 && gm.imgs.length>=10 ? 4 : innerWidth>1100 ? 3 : 2;
+  return Math.max(1,Math.min(n,Math.floor(gm.imgs.length/2)||1));   // pelo menos 2 fotos por coluna
+}
+/* divide as fotos em n colunas com "alturas" (soma de 1/proporção) o mais iguais possível */
+function divide(ars,n){
+  const h=ars.map(a=>1/a), cols=[...Array(n)].map(()=>[]), alt=new Array(n).fill(0);
+  h.forEach((v,k)=>{ const c=alt.indexOf(Math.min(...alt)); cols[c].push(k); alt[c]+=v; });
+  for(let it=0; it<60; it++){                       // refina: move ou troca fotos entre a coluna mais alta e a mais baixa
+    const T=alt.indexOf(Math.max(...alt)), L=alt.indexOf(Math.min(...alt)), dif=alt[T]-alt[L];
+    let best=null, ganho=1e-6;
+    cols[T].forEach((a,i)=>{
+      if(cols[T].length>1 && Math.abs(dif-2*h[a])<dif-ganho){ ganho=dif-Math.abs(dif-2*h[a]); best=['m',i]; }
+      cols[L].forEach((b,j)=>{ const d=Math.abs(dif-2*(h[a]-h[b])); if(d<dif-ganho){ ganho=dif-d; best=['t',i,j]; } });
+    });
+    if(!best) break;
+    const a=cols[T][best[1]];
+    if(best[0]==='m'){ cols[T].splice(best[1],1); cols[L].push(a); alt[T]-=h[a]; alt[L]+=h[a]; }
+    else { const b=cols[L][best[2]]; cols[T][best[1]]=b; cols[L][best[2]]=a; alt[T]+=h[b]-h[a]; alt[L]+=h[a]-h[b]; }
+  }
+  cols.forEach(c=>c.sort((x,y)=>x-y));                // dentro da coluna, mantém a ordem da galeria
+  return cols;
+}
+function montaMosaico(first){
+  if(!gm||!gm.ars||!gm.box.isConnected) return;
+  const n=gmCols(); if(!first && n===gm.cols) return;
+  gm.cols=n;
+  gm.grupos=divide(gm.ars,n);
+  gm.box.innerHTML=gm.grupos.map((ks,c)=>`<div class="gm-col" data-c="${c}">`+ks.map(k=>
+    `<button type="button" class="gm-item clip" data-i="${k}" style="aspect-ratio:${gm.ars[k].toFixed(5)}" aria-label="Ampliar imagem ${k+1} de ${gm.imgs.length}">
+      <span class="gm-ph"><img src="${gm.imgs[k]}" alt="${gm.title} — imagem ${k+1}" loading="lazy" decoding="async" draggable="false"></span>
+    </button>`).join('')+`</div>`).join('');
+  gm.colEls=$$('.gm-col',gm.box);
+  gm.box.classList.add('ok');
+  larguras();
+  scan(gm.box);
+  gmTick();
+}
+/* largura de cada coluna para todas terem a MESMA altura:  altura = largura × Σ(1/proporção) + espaços */
+function larguras(){
+  if(!gm||!gm.colEls.length||!gm.box.isConnected) return;
+  const cs=getComputedStyle(gm.box), g=parseFloat(cs.columnGap)||0, n=gm.colEls.length;
+  const W=gm.box.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-g*(n-1);
+  const S=gm.grupos.map(ks=>ks.reduce((t,k)=>t+1/gm.ars[k],0)), m=gm.grupos.map(ks=>ks.length-1);
+  const H=(W+g*S.reduce((t,s,k)=>t+m[k]/s,0))/S.reduce((t,s)=>t+1/s,0);
+  gm.colEls.forEach((el,k)=>el.style.flex=`0 0 ${((H-g*m[k])/S[k]).toFixed(2)}px`);
+}
+function gmTick(){
+  if(!gm||!gm.colEls.length||reduce||!gm.box.isConnected) return;
+  const r=gm.box.getBoundingClientRect();
+  if(r.bottom<-200||r.top>innerHeight+200) return;
+  /* p = 0 quando a galeria entra por baixo da tela, 1 quando o fim dela chega no pé da tela (colunas alinhadas) */
+  const cs=getComputedStyle(gm.box), fim=r.bottom-parseFloat(cs.paddingBottom);
+  const p=Math.max(0,Math.min(1,(innerHeight-r.top)/Math.max(1,fim-r.top)));
+  const A=GM_AMP(), sp=GM_SPEED[gm.cols]||[];
+  gm.colEls.forEach((el,k)=>el.style.transform=`translate3d(0,${(A*(sp[k]||0)*(1-p)).toFixed(1)}px,0)`);
+}
+{ let raf=0;
+  addEventListener('scroll',()=>{ if(!raf) raf=requestAnimationFrame(()=>{ raf=0; gmTick(); }); },{passive:true});
 }
 
 let lbSet=[],lbI=0,lbLast=null,lbSync=true;
@@ -598,22 +709,56 @@ const T_FECHA = 1050;   // painéis sobem + marca aparece, e então troca a pág
 const T_LIMPA = 2250;   // quando a cortina termina de sair
 const curtain=$('#curtain');
 
+/* Endereços limpos (/estudio, /projetos, /projeto/legacy). Links antigos com /#/ continuam funcionando:
+   são convertidos para o formato novo ao abrir. O servidor precisa entregar o index.html para qualquer
+   endereço — ver .htaccess e o LEIA-ME. */
+if(location.hash.startsWith('#/')) history.replaceState(null,'','/'+location.hash.slice(2).replace(/^\/+/,''));
+const caminho=()=>decodeURIComponent(location.pathname).replace(/\/index\.html$/,'').replace(/^\/+|\/+$/g,'');
+const PAGINAS=['home','estudio','projetos','contato','projeto','privacidade'];
+function meta(sel,attr,val){ let el=document.head.querySelector(sel); if(!el){ el=document.createElement(sel.startsWith('link')?'link':'meta'); const m=sel.match(/\[(\w+)="([^"]+)"\]/); el.setAttribute(m[1],m[2]); document.head.appendChild(el); } el.setAttribute(attr,val); }
 function route(){
-  const h = location.hash.replace('#/','') || '';
+  const h = caminho();
   const [page,slug] = h.split('/');
-  const target = page==='' ? 'home' : page;
+  let target = page==='' ? 'home' : page;
+  const proj = target==='projeto' ? PROJECTS.find(p=>p.slug===slug) : null;
+  if(!PAGINAS.includes(target) || (target==='projeto' && !proj) || (target!=='projeto' && slug)) target='nao-encontrada';
   if(target!=='projeto') gal=null;
   if(target==='projeto') renderProject(slug);
   $$('.page').forEach(pg=>pg.classList.toggle('on',pg.dataset.page===target));
   $$('.nav a').forEach(a=>a.classList.toggle('on',a.dataset.route===target));
   /* páginas que abrem em fundo claro: o header troca para grafite */
-  document.body.dataset.topo = (target==='projetos'||target==='contato') ? 'claro' : 'escuro';
+  document.body.dataset.topo = ['projetos','contato','privacidade','nao-encontrada'].includes(target) ? 'claro' : 'escuro';
   scrollTo(0,0);
   scan($(`.page[data-page="${target}"]`));
-  const nome = target==='projeto' ? (PROJECTS.find(p=>p.slug===slug)||{}).title
-             : target==='home' ? null : target[0].toUpperCase()+target.slice(1);
-  document.title = nome ? 'PLATINUM | '+nome : 'PLATINUM | Arquitetura de Alto Padrão';
+  /* SEO da página (o Google lê também a versão estática gerada por ferramentas/gerar-seo.mjs) */
+  const seo = typeof seoDe==='function' ? seoDe(target, proj) : { titulo: document.title, descricao: '', caminho: location.pathname };
+  document.title = seo.titulo;
+  meta('meta[name="description"]','content',seo.descricao);
+  meta('link[rel="canonical"]','href',(typeof SITE!=='undefined'?SITE.url:location.origin)+seo.caminho);
+  meta('meta[property="og:title"]','content',seo.titulo);
+  meta('meta[property="og:description"]','content',seo.descricao);
+  meta('meta[property="og:url"]','content',(typeof SITE!=='undefined'?SITE.url:location.origin)+seo.caminho);
+  meta('meta[name="robots"]','content',target==='nao-encontrada'?'noindex, follow':'index, follow, max-image-preview:large');
+  if(window.paginaVista) paginaVista(target==='nao-encontrada'?'/404'+location.pathname:seo.caminho, seo.titulo);
+  dispatchEvent(new Event('rota'));
 }
+
+/* dados da empresa (js/config.js) na Política de Privacidade + atalhos para as preferências de cookies */
+(function legal(){
+  if(typeof SITE==='undefined') return;
+  if(!SITE.emailPrivacidade) SITE.emailPrivacidade=SITE.email;
+  $$('[data-cfg]').forEach(el=>{
+    const v=SITE[el.dataset.cfg]; if(!v) return;
+    if(el.hasAttribute('data-cfg-mail')){ el.textContent=v; el.href='mailto:'+v; el.removeAttribute('data-link'); } else el.textContent=v;
+  });
+  if(!SITE.cnpj) $$('[data-cfg-cnpj]').forEach(el=>el.remove());
+  if(!SITE.encarregado) $$('[data-cfg-enc]').forEach(el=>el.remove());
+  /* trechos da política que dependem do que está ligado no config.js */
+  const liga={ ga4:!!SITE.ga4, meta:!!SITE.metaPixel, ck:!!(SITE.ga4||SITE.metaPixel), semck:!(SITE.ga4||SITE.metaPixel) };
+  $$('[data-se]').forEach(el=>{ if(!liga[el.dataset.se]) el.remove(); });
+  const fck=$('#fCk'); if(fck && (SITE.ga4||SITE.metaPixel)) fck.hidden=false;
+  document.addEventListener('click',e=>{ if(e.target.closest('#fCk,[data-abrir-cookies]') && window.abrirCookies) abrirCookies(); });
+})();
 
 let navegando=false;
 function nav(){
@@ -626,9 +771,9 @@ function nav(){
 }
 document.addEventListener('click',e=>{
   const a=e.target.closest('[data-link]'); if(!a) return;
-  e.preventDefault(); closeMenu();
+  e.preventDefault(); closeMenu(); if(window.closeDD) closeDD();
   const to=a.getAttribute('href');
-  if(to===location.hash){ scrollTo({top:0,behavior:'smooth'}); return; }
+  if(new URL(to,location.origin).pathname.replace(/\/+$/,'')===location.pathname.replace(/\/+$/,'')){ scrollTo({top:0,behavior:'smooth'}); return; }
   history.pushState(null,'',to); nav();
 });
 addEventListener('popstate',nav);

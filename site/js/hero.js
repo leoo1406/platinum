@@ -7,7 +7,7 @@
    próxima cena fica carregado e parado no 1º quadro até a troca.
 
    ---------- como trocar os arquivos ----------
-   Imagem → vídeo: na cena 2, troque  image:'...'  por  video:'img/hero/cena-2.mp4', poster:'img/hero/cena-2.webp'
+   Imagem → vídeo: na cena 2, troque  image:'...'  por  video:'/img/hero/cena-2.mp4', poster:'/img/hero/cena-2.webp'
    Celular: preencha o bloco  tall  de cada cena com os arquivos verticais (9:16).
             Enquanto ele não existir, o celular usa os mesmos arquivos do desktop.
    dur: quanto tempo a cena fica na tela (s). A troca começa FADE s antes do fim,
@@ -20,10 +20,10 @@ const box=document.getElementById('heroScenes');
 if(!hero||!box) return;
 
 const TODAS=[
-  { dur:8,  wide:{video:'img/hero/cena-1.mp4', poster:'img/hero/cena-1.webp'}, tall:null },
-  { dur:8,  wide:{image:'img/hero/cena-2.webp'},                               tall:null },
-  { dur:10, wide:{video:'img/hero.mp4', poster:'img/hero-poster.webp'},
-            tall:{video:'img/hero-mobile.mp4', poster:'img/hero-poster-mobile.webp'}, video:true },
+  { dur:8,  wide:{video:'/img/hero/cena-1.mp4', poster:'/img/hero/cena-1.webp'}, tall:null },
+  { dur:8,  wide:{image:'/img/hero/cena-2.webp'},                               tall:null },
+  { dur:10, wide:{video:'/img/hero.mp4', poster:'/img/hero-poster.webp'},
+            tall:{video:'/img/hero-mobile.mp4', poster:'/img/hero-poster-mobile.webp'}, video:true },
 ];
 /* HERO_SO_VIDEO = true → só o vídeo (cena 3), em loop, com o título à esquerda.
    As duas imagens (cenas 1 e 2) continuam aqui e na pasta img/hero/: para voltar às 3 cenas,
